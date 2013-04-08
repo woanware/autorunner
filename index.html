@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Autorunner by woanware</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Autorunner</h1>
+        <p class="header"></p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/woanware/autorunner/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/woanware/autorunner/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/woanware/autorunner">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/woanware">woanware</a></p>
+
+
+      </header>
+      <section>
+        <h1>autorunner</h1>
+
+<p>autorunner is based upon the AutoRuns tool by the Sysinternals/Microsoft gurus. It is designed to perform automated <a href="http://msdn.microsoft.com/en-gb/library/ms537359(v=vs.85">Authenticode</a>.aspx) checking for binaries designed to auto-start on a host. It's primary purpose is to aid forensic investigations.</p>
+
+<p>I didn't want to write this application, it was one that I had to...software persistence is a key factor when identifying malware and I wanted AutoRuns to work. Ideally I would have just run the command line version of it and parsed the output and performed other checks on the data extracted, however, this is flawed for a number of reasons. </p>
+
+<p>The key one being I can never get it to run on more than one user profile, so if I am working on a host with two user accounts, then I can extract the data from the first profile, but when run it against the second profile then it fails. Or I can reboot, remount the image, then it will load the second profile and not the first?!</p>
+
+<p>The second issue that is in off-line mode it needs the user to supply the path to the user profile, which is fine for one profile, but we will work with hosts that have numerous profiles.</p>
+
+<p>So autorunner is designed to work around all of these issues. It will check against all user profiles associated with the host. It will parse out LNK files to the actual binary (one level down). It allows the user to specify multiple drive mappings, so that if the forensic image contains multiple partitions you can map the original drives to mounted drives on the forensic workstation.</p>
+
+<p>The application should be used against a forensic image that has been mounted using what ever method you desire.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Processes every user profile's path in one go</li>
+<li>Checks the authenticode signature</li>
+<li>Parses LNK files</li>
+<li>Normalises binary path</li>
+<li>Can perform hash checks against virus total</li>
+</ul><h2>Third party libraries</h2>
+
+<ul>
+<li>
+<a href="https://github.com/JoshClose/CsvHelper">CsvHelper</a>: CSV output</li>
+<li>
+<a href="http://dotnetzip.codeplex.com/">DotNetZip</a> : Used to download the sigcheck tool and unzip</li>
+<li>
+<a href="http://www.microsoft.com/en-us/download/details.aspx?id=30709">MS SQL CE</a> : Access to MS SQL CE session database (Used by the VirusTotal.NET fork for database caching of results)</li>
+<li>
+<a href="http://technet.microsoft.com/en-gb/sysinternals/bb897441.aspx">sigcheck</a> : Sysinternals tools to perform file signature checks </li>
+<li>
+<a href="http://objectlistview.sourceforge.net/cs/index.html">ObjectListView</a> : Data viewing via lists </li>
+<li>
+<a href="http://processprivileges.codeplex.com/">ProcessPrivileges</a>: Process Privileges is a set of extension methods, written in C#, for System.Diagnostics.Process. It implements the functionality necessary to query, enable, disable or remove privileges on a process</li>
+<li>
+<a href="http://sourceforge.net/projects/shellify/">Shellify</a> : LNK file parsing</li>
+<li>
+<a href="https://github.com/woanware/VirusTotal.NET">VirusTotal.NET</a>: Fork from <a href="https://github.com/Genbox/VirusTotal.NET">https://github.com/Genbox/VirusTotal.NET</a>
+</li>
+<li>
+<a href="https://github.com/woanware/Registry">Registry</a>: Binary Registry parser (woanware)</li>
+<li>[Utility]: Binary Registry parser (woanware)</li>
+</ul><h2>Requirements</h2>
+
+<ul>
+<li>Microsoft .NET Framework v4.5</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
