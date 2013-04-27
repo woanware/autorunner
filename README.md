@@ -1,7 +1,7 @@
 autorunner
 ==========
 
-autorunner is based upon the AutoRuns tool by the Sysinternals/Microsoft gurus. It is designed to perform automated [Authenticode](http://msdn.microsoft.com/en-gb/library/ms537359(v=vs.85).aspx) checking for binaries designed to auto-start on a host. It's primary purpose is to aid forensic investigations.
+autorunner is based upon the AutoRuns tool by the Sysinternals/Microsoft gurus. It is designed to perform automated [Authenticode](http://msdn.microsoft.com/en-gb/library/ms537359(v=vs.85).aspx) checking for binaries designed to auto-start on a host. Its primary purpose is to aid forensic investigations.
 
 I didn't want to write this application, it was one that I had to...software persistence is a key factor when identifying malware and I wanted AutoRuns to work. Ideally I would have just run the command line version of it and parsed the output and performed other checks on the data extracted, however, this is flawed for a number of reasons. 
 
@@ -11,7 +11,7 @@ The second issue that is in off-line mode it needs the user to supply the path t
 
 So autorunner is designed to work around all of these issues. It will check against all user profiles associated with the host. It will parse out LNK files to the actual binary (one level down). It allows the user to specify multiple drive mappings, so that if the forensic image contains multiple partitions you can map the original drives to mounted drives on the forensic workstation.
 
-The application should be used against a forensic image that has been mounted using what ever method you desire.
+The application should be used against a forensic image that has been mounted using whatever method you desire.
 
 ## Features ##
 
