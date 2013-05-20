@@ -32,7 +32,7 @@ The application should be used against a forensic image that has been mounted us
 - [Shellify](http://sourceforge.net/projects/shellify/) : LNK file parsing
 - [VirusTotal.NET](https://github.com/woanware/VirusTotal.NET): Fork from https://github.com/Genbox/VirusTotal.NET
 - [Registry](https://github.com/woanware/Registry): Binary Registry parser (woanware)
-- [Utility]: Binary Registry parser (woanware)
+- [Utility](http://www.woanware.co.uk): Helper functions (woanware)
 
 ## Requirements ##
 
