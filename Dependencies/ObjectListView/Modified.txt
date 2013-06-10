@@ -1,0 +1,148 @@
+/// <summary>
+        /// Override the basic message pump for this control
+        /// </summary>
+        /// <param name="m"></param>
+        protected override void WndProc(ref Message m) {
+            //System.Diagnostics.Debug.WriteLine(m.Msg);
+            switch (m.Msg) {
+                case 2: // WM_DESTROY
+                    if (!this.HandleDestroy(ref m))
+                        base.WndProc(ref m);
+                    break;
+                //case 0x14: // WM_ERASEBKGND
+                //    Can't do anything here since, when the control is double buffered, anything
+                //    done here is immediately over-drawn
+                //    break;
+                case 0x0F: // WM_PAINT
+                    if (!this.HandlePaint(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x46: // WM_WINDOWPOSCHANGING
+                    if (!this.HandleWindowPosChanging(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x4E: // WM_NOTIFY
+                    if (!this.HandleNotify(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x0100: // WM_KEY_DOWN
+                    if (!this.HandleKeyDown(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x0102: // WM_CHAR
+                    if (!this.HandleChar(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x0200: // WM_MOUSEMOVE
+                    if (!this.HandleMouseMove(ref m))
+                        base.WndProc(ref m);
+                    break;
+
+
+                case 0x0201: // WM_LBUTTONDOWN
+                    Point pos = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
+                    var hit = this.HitTest(pos);
+                    switch (hit.Location)
+                    {
+                        case ListViewHitTestLocations.AboveClientArea:
+                        case ListViewHitTestLocations.BelowClientArea:
+                        case ListViewHitTestLocations.LeftOfClientArea:
+                        case ListViewHitTestLocations.RightOfClientArea:
+                        case ListViewHitTestLocations.None:
+                            return;
+                    }
+
+                    if (this.PossibleFinishCellEditing() && !this.HandleLButtonDown(ref m))
+                        base.WndProc(ref m);
+
+                    break;
+                case 0x202:  // WM_LBUTTONUP
+                    Point pos1 = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
+                    var hit1 = this.HitTest(pos1);
+                    switch (hit1.Location)
+                    {
+                        case ListViewHitTestLocations.AboveClientArea:
+                        case ListViewHitTestLocations.BelowClientArea:
+                        case ListViewHitTestLocations.LeftOfClientArea:
+                        case ListViewHitTestLocations.RightOfClientArea:
+                        case ListViewHitTestLocations.None:
+                            return;
+                    }
+
+                    if (this.PossibleFinishCellEditing() && !this.HandleLButtonUp(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x0203: // WM_LBUTTONDBLCLK
+                    Point pos2 = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
+                    var hit2 = this.HitTest(pos2);
+                    switch (hit2.Location)
+                    {
+                        case ListViewHitTestLocations.AboveClientArea:
+                        case ListViewHitTestLocations.BelowClientArea:
+                        case ListViewHitTestLocations.LeftOfClientArea:
+                        case ListViewHitTestLocations.RightOfClientArea:
+                        case ListViewHitTestLocations.None:
+                            return;
+                    }
+
+                    if (this.PossibleFinishCellEditing() && !this.HandleLButtonDoubleClick(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x0204: // WM_RBUTTONDOWN
+                    Point pos3 = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
+                    var hit3 = this.HitTest(pos3);
+                    switch (hit3.Location)
+                    {
+                        case ListViewHitTestLocations.AboveClientArea:
+                        case ListViewHitTestLocations.BelowClientArea:
+                        case ListViewHitTestLocations.LeftOfClientArea:
+                        case ListViewHitTestLocations.RightOfClientArea:
+                        case ListViewHitTestLocations.None:
+                            return;
+                    }
+
+                    if (this.PossibleFinishCellEditing() && !this.HandleRButtonDown(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x0206: // WM_RBUTTONDBLCLK
+                    Point pos4 = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
+                    var hit4 = this.HitTest(pos4);
+                    switch (hit4.Location)
+                    {
+                        case ListViewHitTestLocations.AboveClientArea:
+                        case ListViewHitTestLocations.BelowClientArea:
+                        case ListViewHitTestLocations.LeftOfClientArea:
+                        case ListViewHitTestLocations.RightOfClientArea:
+                        case ListViewHitTestLocations.None:
+                            return;
+                    }
+
+                    if (this.PossibleFinishCellEditing() && !this.HandleRButtonDoubleClick(ref m))
+                        base.WndProc(ref m);
+                    break;
+
+
+
+                case 0x204E: // WM_REFLECT_NOTIFY
+                    if (!this.HandleReflectNotify(ref m))
+                        base.WndProc(ref m);
+                    break;
+                case 0x114: // WM_HSCROLL:
+                case 0x115: // WM_VSCROLL:
+                    if (this.PossibleFinishCellEditing())
+                        base.WndProc(ref m);
+                    break;
+                case 0x20A: // WM_MOUSEWHEEL:
+                case 0x20E: // WM_MOUSEHWHEEL:
+                    if (this.PossibleFinishCellEditing())
+                        base.WndProc(ref m);
+                    break;
+                case 0x7B: // WM_CONTEXTMENU
+                    if (!this.HandleContextMenu(ref m))
+                        base.WndProc(ref m);
+                    break;
+                default:
+                    base.WndProc(ref m);
+                    break;
+            }
+        }

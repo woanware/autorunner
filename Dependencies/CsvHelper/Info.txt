@@ -1,0 +1,2 @@
+URL: https://github.com/JoshClose/CsvHelper
+Version: 1.14.0

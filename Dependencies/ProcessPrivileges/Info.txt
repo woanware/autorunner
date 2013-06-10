@@ -1,0 +1,2 @@
+URL: http://processprivileges.codeplex.com/
+Version: 1.57
