@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Data>
+    <Config>
+      <Path>CurrentControlSet\Control\Terminal Server\Wds\rdpwd\StartupPrograms</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>System</Hive>
+      <Type>Logon</Type>
+    </Config>
+    
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Winlogon\AppSetup</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Policies\Microsoft\Windows\System\Scripts\Startup</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Policies\Microsoft\Windows\System\Scripts\Logon</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Policies\Microsoft\Windows\System\Scripts\Logon</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Winlogon\VmApplet</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Policies\Microsoft\Windows\System\Scripts\Shutdown</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Policies\Microsoft\Windows\System\Scripts\Logoff</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Policies\Microsoft\Windows\System\Scripts\Logoff</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Startup</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Shutdown</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Microsoft\Windows\CurrentVersion\Policies\System\Shell</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows\CurrentVersion\Policies\System\Shell</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Winlogon\Shell</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>CurrentControlSet\Control\SafeBoot\AlternateShell</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>System</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Winlogon\Taskman</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\InitialProgram</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>System</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows\CurrentVersion\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Wow6432Node\Microsoft\Windows\CurrentVersion\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows\CurrentVersion\RunOnce</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Microsoft\Windows NT\CurrentVersion\Windows\Load</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Microsoft\Windows NT\CurrentVersion\Windows\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Active Setup\Installed Components</Path>
+      <EntryType>RegistryStubValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Wow6432Node\Microsoft\Active Setup\Installed Components</Path>
+      <EntryType>RegistryStubValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Microsoft\Windows\CurrentVersion\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Software\Microsoft\Windows\CurrentVersion\RunOnce</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Run</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Ntuser</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows CE Services\AutoStartOnConnect</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Wow6432Node\Microsoft\Windows CE Services\AutoStartOnConnect</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Microsoft\Windows CE Services\AutoStartOnDisconnect</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>Wow6432Node\Microsoft\Windows CE Services\AutoStartOnDisconnect</Path>
+      <EntryType>RegistryValue</EntryType>
+      <Hive>NotApplicable</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <!--Win7-->
+    <Config>
+      <Path>Microsoft\Windows\Start Menu\Programs\Startup</Path>
+      <EntryType>FolderDefault</EntryType>
+      <Hive>NotApplicable</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <!--XP-->
+    <Config>
+      <Path>Documents and Settings\All Users\Start Menu</Path>
+      <EntryType>FolderDefault</EntryType>
+      <Hive>NotApplicable</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <!--Win7-->
+    <Config>
+      <Path>AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</Path>
+      <EntryType>FolderUsers</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <!--XP-->
+    <Config>
+      <Path>Start Menu</Path>
+      <EntryType>FolderUsers</EntryType>
+      <Hive>Software</Hive>
+      <Type>Logon</Type>
+    </Config>
+
+    <Config>
+      <Path>CurrentControlSet\Services</Path>
+      <EntryType>Service</EntryType>
+      <Hive>System</Hive>
+      <Type>Service</Type>
+    </Config>
+
+    <Config>
+      <Path>CurrentControlSet\Services</Path>
+      <EntryType>Driver</EntryType>
+      <Hive>System</Hive>
+      <Type>Driver</Type>
+    </Config>
+    
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Windows</Path>
+      <EntryType>AppInit</EntryType>
+      <Hive>Software</Hive>
+      <Type>AppInit</Type>
+    </Config>
+    
+    <Config>
+      <Path>Microsoft\Windows NT\CurrentVersion\Windows</Path>
+      <EntryType>AppInit</EntryType>
+      <Hive>Software</Hive>
+      <Type>AppInit</Type>
+    </Config>
+    
+    <Config>
+      <Path>Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects</Path>
+      <EntryType>Bho</EntryType>
+      <Hive>Software</Hive>
+      <Type>Bho</Type>
+    </Config>
+    
+    <Config>
+      <Path>Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects</Path>
+      <EntryType>Bho</EntryType>
+      <Hive>Software</Hive>
+      <Type>Bho</Type>
+    </Config>
+    
+  </Data>
+</Configuration>
