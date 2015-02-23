@@ -1,4 +1,4 @@
-﻿namespace autorunner
+namespace autorunner
 {
     /// <summary>
     /// Encapsulates one entry in the Configuration XML file

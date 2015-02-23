@@ -1,4 +1,4 @@
-﻿using BrightIdeasSoftware;
+using BrightIdeasSoftware;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -103,6 +103,7 @@ namespace autorunner
             string parameters = string.Empty;
             if (path.StartsWith("\"") == true)
             {
+                // We appear to be quoted, so the file path should be between the quotes
                 string temp = path.Substring(1);
                 int index = temp.IndexOf('"');
                 if (index > -1)
@@ -122,18 +123,64 @@ namespace autorunner
                 }
 
                 string[] parts = path.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts[parts.Length - 1].IndexOf(" ") > -1)
+                int firstPartWithSpace = 0;
+                for (int index = 0; index < parts.Length; index++)
                 {
-                    string tempFile = parts[parts.Length - 1].Substring(0, parts[parts.Length - 1].IndexOf(" "));
-                    autoRunEntry.Parameters = parts[parts.Length - 1].Substring(parts[parts.Length - 1].IndexOf(" "));
-                    path = string.Join("\\", parts.Slice(0, parts.Length - 1));
-                    if (path.StartsWith("\"") == true)
+                    int indexOf = parts[index].IndexOf(" ");
+                    if (indexOf > -1)
                     {
-                        path = path.Substring(1);
+                        firstPartWithSpace = index;
+                        break;
+                    }
+                }
+
+                if (firstPartWithSpace != 0)
+                {
+                    string tempFileEx = parts[firstPartWithSpace].Substring(0, parts[firstPartWithSpace].IndexOf(" "));
+                    
+                    if (tempFileEx.EndsWith(".exe") || tempFileEx.EndsWith(".dll"))
+                       {
+                            //C:\windows\system32\cmd.exe /D /C start C:\windows\system32\ie4uinit.exe -ClearIconCache
+                           string tempFile = string.Join("\\", parts.Slice(0, firstPartWithSpace));
+                        tempFile += @"\" + parts[firstPartWithSpace].Substring(0, parts[firstPartWithSpace].IndexOf(" "));
+
+                        tempFile = woanware.Path.ReplaceIllegalPathChars(tempFile, string.Empty);
+                        autoRunEntry.FilePath = tempFile;
+                        autoRunEntry.Parameters = parts[firstPartWithSpace].Substring(parts[firstPartWithSpace].IndexOf(" ")) + string.Join("\\", parts.Slice(firstPartWithSpace, parts.Length));
+                    } 
+                    else
+                    {
+                        if (parts[parts.Length - 1].IndexOf(' ') > -1)
+                        {
+                            //c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.QualityTools.RecorderBarBHO100.dll
+                                string tempFile2 = parts[parts.Length - 1].Substring(0, parts[parts.Length - 1].IndexOf(" "));
+                                autoRunEntry.Parameters = parts[parts.Length - 1].Substring(parts[parts.Length - 1].IndexOf(" "));
+                                path = string.Join("\\", parts.Slice(0, parts.Length - 1));
+                                if (path.StartsWith("\"") == true)
+                                {
+                                    path = path.Substring(1);
+                                }
+
+                                tempFile2 = woanware.Path.ReplaceIllegalPathChars(tempFile2, string.Empty);
+                                autoRunEntry.FilePath = System.IO.Path.Combine(path, tempFile2);
+                            }
+                            else
+                            {
+                                if (path.StartsWith("\"") == true)
+                                {
+                                    path = path.Substring(1);
+                                }
+
+                                if (path.EndsWith("\"") == true)
+                                {
+                                    path = path.Substring(0, path.Length - 1);
+                                }
+
+                                autoRunEntry.FilePath = path;
+                            }
                     }
 
-                    tempFile = woanware.Path.ReplaceIllegalPathChars(tempFile, string.Empty);
-                    autoRunEntry.FilePath = System.IO.Path.Combine(path, tempFile);
+                
                 }
                 else
                 {
@@ -149,6 +196,46 @@ namespace autorunner
 
                     autoRunEntry.FilePath = path;
                 }
+
+                //if (parts[parts.Length - 1].IndexOf(' ') > -1)
+                //    if (path.IndexOf(" ") > -1)
+                //    {
+                //        int index = path.IndexOf(" ");
+                //        if (index > -1)
+                //        {
+                //            autoRunEntry.Parameters = path.Substring(index + 1, path.Length - (index + 1));
+                //            autoRunEntry.FilePath = path.Substring(0, index);
+                //        }
+                //        else
+                //        {
+                //            autoRunEntry.FilePath = woanware.Path.ReplaceIllegalPathChars(path, string.Empty);
+                //        }
+
+                //        string tempFile = parts[parts.Length - 1].Substring(0, parts[parts.Length - 1].IndexOf(" "));
+                //        autoRunEntry.Parameters = parts[parts.Length - 1].Substring(parts[parts.Length - 1].IndexOf(" "));
+                //        path = string.Join("\\", parts.Slice(0, parts.Length - 1));
+                //        if (path.StartsWith("\"") == true)
+                //        {
+                //            path = path.Substring(1);
+                //        }
+
+                //        tempFile = woanware.Path.ReplaceIllegalPathChars(tempFile, string.Empty);
+                //        autoRunEntry.FilePath = System.IO.Path.Combine(path, tempFile);
+                //    }
+                //    else
+                //    {
+                //        if (path.StartsWith("\"") == true)
+                //        {
+                //            path = path.Substring(1);
+                //        }
+
+                //        if (path.EndsWith("\"") == true)
+                //        {
+                //            path = path.Substring(0, path.Length - 1);
+                //        }
+
+                //        autoRunEntry.FilePath = path;
+                //    }
 
                 autoRunEntry.FilePath = Helper.NormalisePath(driveMappings, autoRunEntry.FilePath);
             }
@@ -211,6 +298,8 @@ namespace autorunner
                 autoRunEntry.FilePath = Helper.NormalisePath(driveMappings, autoRunEntry.FilePath);
                 return autoRunEntry;
             }
+
+            autoRunEntry.FilePath = "";
 
             return autoRunEntry;
         }
@@ -275,6 +364,11 @@ namespace autorunner
             if (path.ToLower().IndexOf(@"\systemroot", StringComparison.InvariantCultureIgnoreCase) > -1)
             {
                 path = path.ToLower().Replace(@"\systemroot", System.IO.Path.Combine(windowsDrive.MappedDrive, "Windows"));
+            }
+
+            if (path.ToLower().IndexOf(@"syswow64\", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                path = path.ToLower().Replace(@"syswow64\", System.IO.Path.Combine(windowsDrive.MappedDrive, "Windows", "syswow64"));
             }
 
             if (path.ToLower().IndexOf(@"system32", StringComparison.InvariantCultureIgnoreCase) == 0)
@@ -405,7 +499,8 @@ namespace autorunner
         /// <param name="file"></param>
         /// <param name="data"></param>
         public static void WriteErrorToLog(string message, 
-                                           string file, 
+                                           string originalPath,
+                                           string parsedPath, 
                                            string data)
         {
             if (System.IO.Directory.Exists(Misc.GetUserDataDirectory()) == false)
@@ -413,9 +508,10 @@ namespace autorunner
                 System.IO.Directory.CreateDirectory(Misc.GetUserDataDirectory());
             }
 
-            IO.WriteTextToFile(string.Format("{0}: File: {1}", DateTime.Now.ToString("s"), file), System.IO.Path.Combine(Misc.GetUserDataDirectory(), "Errors.txt"), true);
-            IO.WriteTextToFile(string.Format("{0}: Data: {1}", DateTime.Now.ToString("s"), data), System.IO.Path.Combine(Misc.GetUserDataDirectory(), "Errors.txt"), true);
-            IO.WriteTextToFile(string.Format("{0}: Error: {1}", DateTime.Now.ToString("s"), message), System.IO.Path.Combine(Misc.GetUserDataDirectory(), "Errors.txt"), true);
+            IO.WriteTextToFile(string.Format("{0}: Original Path: {1}\n", DateTime.Now.ToString("s"), originalPath), System.IO.Path.Combine(Misc.GetUserDataDirectory(), "Errors.txt"), true);
+            IO.WriteTextToFile(string.Format("{0}: Parsed Path: {1}\n", DateTime.Now.ToString("s"), parsedPath), System.IO.Path.Combine(Misc.GetUserDataDirectory(), "Errors.txt"), true);
+            IO.WriteTextToFile(string.Format("{0}: Data: {1}\n", DateTime.Now.ToString("s"), data), System.IO.Path.Combine(Misc.GetUserDataDirectory(), "Errors.txt"), true);
+            IO.WriteTextToFile(string.Format("{0}: Error: {1}\n", DateTime.Now.ToString("s"), message), System.IO.Path.Combine(Misc.GetUserDataDirectory(), "Errors.txt"), true);
         }
     }
 }

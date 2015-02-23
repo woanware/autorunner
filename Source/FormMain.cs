@@ -1,4 +1,4 @@
-﻿using BrightIdeasSoftware;
+using BrightIdeasSoftware;
 using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace autorunner
+namespace autorunner
 {
     partial class FormImport
     {

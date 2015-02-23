@@ -1,4 +1,4 @@
-﻿using ProcessPrivileges;
+using ProcessPrivileges;
 using Registry;
 using Shellify;
 using System;
@@ -32,7 +32,6 @@ namespace autorunner
         public bool IsRunning { get; private set; }
         private Configuration _configuration;
         private List<AutoRunEntry> _entries;
-        //private string _windowsPath;
         private string _registryPath;
         private string _windowsVolume;
         private string _sigCheckPath;
@@ -65,9 +64,6 @@ namespace autorunner
             // Get the windows drive mapping
             var windowsDrive = (from d in _driveMappings where d.IsWindowsDrive == true select d).SingleOrDefault();
             _windowsVolume = System.IO.Path.GetPathRoot(windowsDrive.MappedDrive);
-
-            // DEBUG
-            //_windowsVolume = @"C:\";
 
             _sigCheckPath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe");
 
@@ -178,87 +174,88 @@ namespace autorunner
 
                 foreach (RegistryKey key in regKeyServices.SubKeys())
                 {
-                    DateTime modified;
-                    string imagePath = string.Empty;
-                    string serviceDll = string.Empty;
-                    if (key.Value("ImagePath") == null)
+                    try
                     {
-                        continue;
-                    }
-
-                    imagePath = key.Value("ImagePath").Value.ToString();
-                    modified = key.Timestamp;
-
-                    if (key.SubKey("Parameters") != null)
-                    {
-                        if (key.SubKey("Parameters").Value("ServiceDll") != null)
+                        DateTime modified;
+                        string imagePath = string.Empty;
+                        string serviceDll = string.Empty;
+                        if (key.Value("ImagePath") == null)
                         {
-                            serviceDll = key.SubKey("Parameters").Value("ServiceDll").Value.ToString();
-                            modified = key.SubKey("Parameters").Timestamp;
+                            continue;
+                        }
+
+                        imagePath = key.Value("ImagePath").Value.ToString();
+                        modified = key.Timestamp;
+
+                        if (key.SubKey("Parameters") != null)
+                        {
+                            if (key.SubKey("Parameters").Value("ServiceDll") != null)
+                            {
+                                serviceDll = key.SubKey("Parameters").Value("ServiceDll").Value.ToString();
+                                modified = key.SubKey("Parameters").Timestamp;
+                            }
+                        }
+
+                        string serviceType = string.Empty;
+                        if (key.Value("Type") != null)
+                        {
+                            serviceType = key.Value("Type").Value.ToString();
+                        }
+
+                        string description = string.Empty;
+                        if (key.Value("Description") != null)
+                        {
+                            description = key.Value("Description").Value.ToString();
+                        }
+
+                        string displayName = string.Empty;
+                        if (key.Value("DisplayName") != null)
+                        {
+                            displayName = key.Value("DisplayName").Value.ToString();
+                        }
+
+                        switch (serviceType)
+                        {
+                            case "1":
+                                serviceType = "Kernel Device Driver";
+                                break;
+                            case "2":
+                                serviceType = "File System Driver";
+                                break;
+                            case "16":
+                                serviceType = "Service";
+                                break;
+                            case "32":
+                                serviceType = "Shared Service";
+                                break;
+                            default:
+                                break;
+                        }
+
+                        if (serviceDll.Length > 0)
+                        {
+                            ProcessEntry(serviceDll,
+                                         key.Path,
+                                         config.Type,
+                                         string.Empty,
+                                         file,
+                                         displayName,
+                                         description,
+                                         modified);
+                        }
+                        else
+                        {
+                            ProcessEntry(imagePath,
+                                         key.Path,
+                                         config.Type,
+                                         string.Empty,
+                                         file,
+                                         displayName,
+                                         description,
+                                         modified);
                         }
                     }
-
-                    string serviceType = string.Empty;
-                    if (key.Value("Type") != null)
-                    {
-                        serviceType = key.Value("Type").Value.ToString();
-                    }
-
-                    string description = string.Empty;
-                    if (key.Value("Description") != null)
-                    {
-                        description = key.Value("Description").Value.ToString();
-                    }
-
-                    string displayName = string.Empty;
-                    if (key.Value("DisplayName") != null)
-                    {
-                        displayName = key.Value("DisplayName").Value.ToString();
-                    }
-
-                    switch (serviceType)
-                    {
-                        case "1":
-                            serviceType = "Kernel Device Driver";
-                            break;
-                        case "2":
-                            serviceType = "File System Driver";
-                            break;
-                        case "16":
-                            serviceType = "Service";
-                            break;
-                        case "32":
-                            serviceType = "Shared Service";
-                            break;
-                        default:
-                            break;
-                    }
-
-                    if (serviceDll.Length > 0)
-                    {
-                        ProcessEntry(serviceDll,
-                                     key.Path,
-                                     //@"HKLM\System\CurrentControlSet\Services",
-                                     config.Type,
-                                     string.Empty, 
-                                     file, 
-                                     displayName, 
-                                     description, 
-                                     modified);
-                    }
-                    else
-                    {
-                        ProcessEntry(imagePath,
-                                     key.Path,
-                                     //@"HKLM\System\CurrentControlSet\Services",
-                                     config.Type,
-                                     string.Empty,
-                                     file,
-                                     displayName,
-                                     description, 
-                                     modified);
-                    }
-                    
+                    catch (Exception) { continue; }
                 }
             }
         }
@@ -377,7 +374,7 @@ namespace autorunner
                     catch (Exception ex) 
                     {
                         _hasErrors = true;
-                        Helper.WriteErrorToLog(ex.Message, string.Empty, config.Path);
+                        Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, config.Path);
                     }
                 }
             }
@@ -405,7 +402,7 @@ namespace autorunner
             catch (Exception ex)
             {
                 _hasErrors = true;
-                Helper.WriteErrorToLog(ex.Message, string.Empty, config.Path);
+                Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, config.Path);
             }
         }
 
@@ -729,9 +726,17 @@ namespace autorunner
                     catch (Exception ex)
                     {
                         _hasErrors = true;
-                        Helper.WriteErrorToLog(ex.Message, filePath, path);
+                        Helper.WriteErrorToLog(ex.Message, filePath, autoRunEntry.FilePath, path);
                     }
                 }
+
+                if (autoRunEntry.FilePath.Length == 0)
+                {
+                    Helper.WriteErrorToLog("FilePath is zero length", filePath, autoRunEntry.FilePath, path);
+                    return;
+                }
+
+                Console.WriteLine(autoRunEntry.FilePath);
 
                 _entries.Add(autoRunEntry);
 
@@ -767,7 +772,7 @@ namespace autorunner
                 }
                 catch (Exception ex)
                 {
-                    Helper.WriteErrorToLog(ex.Message, filePath, path);
+                    Helper.WriteErrorToLog(ex.Message, filePath, autoRunEntry.FilePath, path);
                     autoRunEntry.Error = "Error: " + ex.Message;
                     OnEntryFound(autoRunEntry);
                 }
@@ -775,7 +780,7 @@ namespace autorunner
             catch (Exception ex)
             {
                 _hasErrors = true;
-                Helper.WriteErrorToLog(ex.Message, filePath, path);
+                Helper.WriteErrorToLog(ex.Message, filePath, filePath, path);
             }
         }
 

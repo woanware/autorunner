@@ -276,7 +276,7 @@
 
     <!--Win7-->
     <Config>
-      <Path>Microsoft\Windows\Start Menu\Programs\Startup</Path>
+      <Path>ProgramData\Microsoft\Windows\Start Menu\Programs\Startup</Path>
       <EntryType>FolderDefault</EntryType>
       <Hive>NotApplicable</Hive>
       <Type>Logon</Type>
@@ -328,7 +328,7 @@
     </Config>
     
     <Config>
-      <Path>Microsoft\Windows NT\CurrentVersion\Windows</Path>
+      <Path>Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows</Path>
       <EntryType>AppInit</EntryType>
       <Hive>Software</Hive>
       <Type>AppInit</Type>

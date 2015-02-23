@@ -11,7 +11,9 @@ The second issue that is in off-line mode it needs the user to supply the path t
 
 So autorunner is designed to work around all of these issues. It will check against all user profiles associated with the host. It will parse out LNK files to the actual binary (one level down). It allows the user to specify multiple drive mappings, so that if the forensic image contains multiple partitions you can map the original drives to mounted drives on the forensic workstation.
 
-The application should be used against a forensic image that has been mounted using whatever method you desire. **Ensure that the image is mounted writeable, so that the writes are cached and the original image is not affected. This is so the application can take ownership of the files where necessary to ensure that everything is accessible to retrieve the file attributes**
+The application should be used against a forensic image that has been mounted using whatever method you desire. 
+
+**Ensure that the image is mounted writeable, so that the writes are cached and the original image is not affected. This is so the application can take ownership of the files where necessary to ensure that everything is accessible to retrieve the file attributes**
 
 ## Features ##
 
@@ -33,4 +35,5 @@ The application should be used against a forensic image that has been mounted us
 
 ## Requirements ##
 
-- Microsoft .NET Framework v4.5
+- Microsoft .NET Framework v4.5.2
+- Windows (x64)

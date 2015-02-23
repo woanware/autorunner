@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [File purpose]
  * Author: Phillip Piper
  * Date: 1 May 2007 7:44 PM
