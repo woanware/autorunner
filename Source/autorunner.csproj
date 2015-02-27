@@ -144,13 +144,13 @@
     <None Include="Resources\DefaultFileIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Libraries\Registry\Source\Registry.csproj">
-      <Project>{4f88e3c4-f526-451d-9ee8-06f5c293be82}</Project>
-      <Name>Registry</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Libraries\Utility\Source\Utility.csproj">
       <Project>{31638293-73bf-4208-bea3-ac47117cef3a}</Project>
       <Name>Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\mark.woan\Downloads\Registry-master %284%29\Registry-master\Registry\Registry.csproj">
+      <Project>{5c40be24-a89d-4973-b668-2d6e945cb047}</Project>
+      <Name>Registry</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,6 +10,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using woanware;
+using Registry.Abstractions;
 
 namespace autorunner
 {
@@ -148,70 +149,80 @@ namespace autorunner
                                                                        config.Hive.GetEnumDescription(), 
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
                 }
 
-                RegistryKey regKey = registry.Open(@"Select");
+                RegistryKey regKey = registry.GetKey(@"Select");
                 if (regKey == null)
                 {
                     continue;
                 }
 
-                RegistryValue regValueCcs = regKey.Value("Current");
+                KeyValue regValueCcs = regKey.Values.Where(v => v.ValueName.ToLower() == "current").SingleOrDefault();
                 if (regValueCcs == null)
                 {
                     continue;
                 }
 
-                RegistryKey regKeyServices = registry.Open(@"ControlSet00" + regValueCcs.Value + "\\Services");
-                if (regKeyServices == null)
+                regKey = registry.GetKey(@"ControlSet00" + regValueCcs.ValueData + "\\Services");
+                if (regKey == null)
                 {
                     continue;
                 }
 
-                foreach (RegistryKey key in regKeyServices.SubKeys())
+                foreach (RegistryKey key in regKey.SubKeys)
                 {
                     try
                     {
-                        DateTime modified;
+                        RegistryKey subKey = registry.GetKey(key.KeyPath);
+
+                        DateTimeOffset? modified;
                         string imagePath = string.Empty;
                         string serviceDll = string.Empty;
-                        if (key.Value("ImagePath") == null)
+                        if (subKey.Values.Where(v => v.ValueName.ToLower() == "imagepath").SingleOrDefault() == null)
                         {
                             continue;
                         }
 
-                        imagePath = key.Value("ImagePath").Value.ToString();
-                        modified = key.Timestamp;
-
-                        if (key.SubKey("Parameters") != null)
+                        if (subKey.KeyPath == @"CsiTool-CreateHive-{00000000-0000-0000-0000-000000000000}\ControlSet001\Services\AppReadiness")
                         {
-                            if (key.SubKey("Parameters").Value("ServiceDll") != null)
+
+                        }
+
+                        imagePath = subKey.Values.Where(v => v.ValueName.ToLower() == "imagepath").SingleOrDefault().ValueData;
+                        modified = subKey.LastWriteTime;
+
+                        if (subKey.SubKeys.Where(v => v.KeyName.ToLower() == "parameters").SingleOrDefault() != null)
+                        {
+                            RegistryKey subKeyParameters = subKey.SubKeys.Where(v => v.KeyName.ToLower() == "parameters").SingleOrDefault();
+                            subKeyParameters = registry.GetKey(subKeyParameters.KeyPath);
+
+                            if (subKeyParameters.Values.Where(v => v.ValueName.ToLower() == "servicedll").SingleOrDefault() != null)
                             {
-                                serviceDll = key.SubKey("Parameters").Value("ServiceDll").Value.ToString();
-                                modified = key.SubKey("Parameters").Timestamp;
+                                serviceDll = subKeyParameters.Values.Where(v => v.ValueName.ToLower() == "servicedll").SingleOrDefault().ValueData;
+                                modified = subKeyParameters.LastWriteTime;
                             }
                         }
 
                         string serviceType = string.Empty;
-                        if (key.Value("Type") != null)
+                        if (subKey.Values.Where(v => v.ValueName.ToLower() == "type").SingleOrDefault() != null)
                         {
-                            serviceType = key.Value("Type").Value.ToString();
+                            serviceType = subKey.Values.Where(v => v.ValueName.ToLower() == "type").SingleOrDefault().ValueData;
                         }
 
                         string description = string.Empty;
-                        if (key.Value("Description") != null)
+                        if (subKey.Values.Where(v => v.ValueName.ToLower() == "description").SingleOrDefault() != null)
                         {
-                            description = key.Value("Description").Value.ToString();
+                            description = subKey.Values.Where(v => v.ValueName.ToLower() == "description").SingleOrDefault().ValueData;
                         }
 
                         string displayName = string.Empty;
-                        if (key.Value("DisplayName") != null)
+                        if (subKey.Values.Where(v => v.ValueName.ToLower() == "displayName").SingleOrDefault() != null)
                         {
-                            displayName = key.Value("DisplayName").Value.ToString();
+                            displayName = subKey.Values.Where(v => v.ValueName.ToLower() == "displayName").SingleOrDefault().ValueData;
                         }
 
                         switch (serviceType)
@@ -235,7 +246,7 @@ namespace autorunner
                         if (serviceDll.Length > 0)
                         {
                             ProcessEntry(serviceDll,
-                                         key.Path,
+                                         subKey.KeyPath,
                                          config.Type,
                                          string.Empty,
                                          file,
@@ -246,7 +257,7 @@ namespace autorunner
                         else
                         {
                             ProcessEntry(imagePath,
-                                         key.Path,
+                                         subKey.KeyPath,
                                          config.Type,
                                          string.Empty,
                                          file,
@@ -270,17 +281,42 @@ namespace autorunner
                                                                        config.Hive.GetEnumDescription(), 
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
                 }
 
-                RegistryKey regKey = OpenKey(registry, config.Path);
-                if (regKey == null)
+                RegistryKey regKey = null;
+
+                if (config.Path.IndexOf("currentcontrolset", StringComparison.OrdinalIgnoreCase) > -1)
                 {
-                    continue;
+                    RegistryKey regKeyTemp = registry.GetKey(@"Select");
+                    if (regKeyTemp == null)
+                    {
+                        return;
+                    }
+
+                    KeyValue regValueCcs = regKeyTemp.Values.Where(v => v.ValueName.ToLower() == "current").SingleOrDefault();
+                    if (regValueCcs == null)
+                    {
+                        return;
+                    }
+
+                    regKey = registry.GetKey(@"ControlSet00" + regValueCcs.ValueData);
+                    if (regKey == null)
+                    {
+                        return;
+                    }
                 }
+                else
+                {
+                    regKey = OpenKey(registry, config.Path);
+                    if (regKey == null)
+                    {
+                        continue;
+                    }
+                }                
 
                 string prefix = string.Empty;
                 switch (config.Hive)
@@ -313,12 +349,12 @@ namespace autorunner
         /// <param name="type"></param>
         /// <param name="info"></param>
         /// <param name="sourceFile"></param>
-        private void EnumerateValues(RegistryKey regKey, string path, string type, string info, string sourceFile)
+        private void EnumerateValues(Registry.Abstractions.RegistryKey regKey, string path, string type, string info, string sourceFile)
         {
-            DateTime modified = regKey.Timestamp;
-            foreach (RegistryValue regValue in regKey.Values())
+            DateTimeOffset? modified = regKey.LastWriteTime;
+            foreach (Registry.Abstractions.KeyValue regValue in regKey.Values)
             {
-                ProcessEntry(regValue.Value.ToString(), path, type, info, sourceFile, modified);
+                ProcessEntry(regValue.ValueData.ToString(), path, type, info, sourceFile, modified);
             }
         }
 
@@ -332,26 +368,28 @@ namespace autorunner
                                                                        config.Hive.GetEnumDescription(), 
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
                 }
 
-                RegistryKey regKey = registry.Open(@"Microsoft\Windows NT\CurrentVersion\ProfileList");
+                RegistryKey regKey = registry.GetKey(@"Microsoft\Windows NT\CurrentVersion\ProfileList");
                 if (regKey == null)
                 {
                     continue;
                 }
 
-                foreach (RegistryKey key in regKey.SubKeys())
+                foreach (RegistryKey key in regKey.SubKeys)
                 {
-                    if (key.Value("ProfileImagePath") == null)
+                    RegistryKey subKey = registry.GetKey(key.KeyPath);
+
+                    if (subKey.Values.Where(v => v.ValueName.ToLower() == "profileimagepath").SingleOrDefault() == null)
                     {
                         continue;
                     }
 
-                    string profilePath = key.Value("ProfileImagePath").Value.ToString();
+                    string profilePath = subKey.Values.Where(v => v.ValueName.ToLower() == "profileimagepath").SingleOrDefault().ValueData;
                     string startupPath = System.IO.Path.Combine(profilePath, config.Path);
                     startupPath = Helper.NormalisePath(_driveMappings, startupPath);
                     if (System.IO.Directory.Exists(startupPath) == false)
@@ -416,7 +454,7 @@ namespace autorunner
                                                                        config.Hive.GetEnumDescription(), 
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
@@ -428,17 +466,17 @@ namespace autorunner
                     continue;
                 }
 
-                if (regKey.Value("Appinit_Dlls") == null)
+                if (regKey.Values.Where(v => v.ValueName.ToLower() == "appinit_dlls").SingleOrDefault() == null)
                 {
                     continue;
                 }
 
-                if (regKey.Value("Appinit_Dlls").Value.ToString().Length == 0)
+                if (regKey.Values.Where(v => v.ValueName.ToLower() == "appinit_dlls").SingleOrDefault().ValueData.Length == 0)
                 {
                     continue;
                 }
 
-                ParseAppInitDll(config.Path, regKey.Value("Appinit_Dlls").Value.ToString(), file, regKey.Timestamp);
+                ParseAppInitDll(config.Path, regKey.Values.Where(v => v.ValueName.ToLower() == "appinit_dlls").SingleOrDefault().ValueData, file, regKey.LastWriteTime);
             }
         }
 
@@ -447,7 +485,7 @@ namespace autorunner
         /// </summary>
         /// <param name="path"></param>
         /// <param name="data"></param>
-        private void ParseAppInitDll(string path, string data, string sourceFile, DateTime modified)
+        private void ParseAppInitDll(string path, string data, string sourceFile, DateTimeOffset? modified)
         {
             string[] parts = data.Split(' ');
             foreach (string part in parts)
@@ -476,31 +514,32 @@ namespace autorunner
                                                                        config.Hive.GetEnumDescription(), 
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
                 }
 
-                RegistryKey regKey = registry.Open(config.Path);
+                RegistryKey regKey = registry.GetKey(config.Path);
                 if (regKey == null)
                 {
                     continue;
                 }
 
-                foreach (RegistryKey subKey in regKey.SubKeys())
+                foreach (RegistryKey subKey in regKey.SubKeys)
                 {
-                    if (subKey.Value("StubPath") == null)
+                    RegistryKey childKey = registry.GetKey(subKey.KeyPath);
+                    if (childKey.Values.Where(v => v.ValueName.ToLower() == "stubpath").SingleOrDefault() == null)
                     {
                         continue;
                     }
 
-                    ProcessEntry(subKey.Value("StubPath").Value.ToString(), 
-                                 @"HLKM\" + config.Hive.GetEnumDescription() + @"\" + config.Path + @"\" + subKey.Name,
+                    ProcessEntry(childKey.Values.Where(v => v.ValueName.ToLower() == "stubpath").SingleOrDefault().ValueData,
+                                 @"HLKM\" + config.Hive.GetEnumDescription() + @"\" + config.Path + @"\" + childKey.KeyName,
                                  config.Type,
-                                 @"HLKM\Software\Microsoft\Active Setup\Installed Components\" + subKey.Name,
+                                 @"HLKM\Software\Microsoft\Active Setup\Installed Components\" + childKey.KeyName,
                                  file,
-                                 subKey.Timestamp);
+                                 childKey.LastWriteTime);
                 }
             }
         }
@@ -521,7 +560,7 @@ namespace autorunner
                                                                        files, 
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
@@ -535,17 +574,17 @@ namespace autorunner
                         continue;
                     }
 
-                    foreach (RegistryKey subKey in regKey.SubKeys())
+                    foreach (RegistryKey subKey in regKey.SubKeys)
                     {
-                        if (subKey.Value("(default)") == null)
+                        if (subKey.Values.Where(v => v.ValueName.ToLower() == "default").SingleOrDefault() == null)
                         {
                             continue;
                         }
 
-                        string guid = subKey.Value("(default)").Value.ToString();
+                        string guid = subKey.Values.Where(v => v.ValueName.ToLower() == "default").SingleOrDefault().ValueData;
                         ProcessClsid(registry, 
                                      pathPrefix + "\\" + key,
-                                     subKey.Name, 
+                                     subKey.KeyName, 
                                      "ShellEx",
                                      guid, 
                                      file);
@@ -563,7 +602,7 @@ namespace autorunner
                                                                        "software", 
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
@@ -594,7 +633,7 @@ namespace autorunner
         /// <param name="info"></param>
         /// <param name="guid"></param>
         /// <param name="sourceFile"></param>
-        private void ProcessClsid(Registry.Registry registry, 
+        private void ProcessClsid(RegistryHiveOnDemand registry, 
                                   string path, 
                                   string type, 
                                   string info, 
@@ -611,12 +650,12 @@ namespace autorunner
                 }
             }
 
-            if (regKey.Value("(default)") == null)
+            if (regKey.Values.Where(v => v.ValueName.ToLower() == "(default)").SingleOrDefault() == null)
             {
                 return;
             }
 
-            ProcessEntry(regKey.Value("(default)").Value.ToString(), path, type, info, sourceFile, regKey.Timestamp);
+            ProcessEntry(regKey.Values.Where(v => v.ValueName.ToLower() == "(default)").SingleOrDefault().ValueData, path, type, info, sourceFile, regKey.LastWriteTime);
         }
 
         /// <summary>
@@ -629,21 +668,21 @@ namespace autorunner
                                                                        config.Hive.GetEnumDescription(),
                                                                        SearchOption.AllDirectories))
             {
-                Registry.Registry registry = OpenRegistry(file);
+                RegistryHiveOnDemand registry = OpenRegistry(file);
                 if (registry == null)
                 {
                     continue;
                 }
 
-                RegistryKey regKey = registry.Open(config.Path);
+                RegistryKey regKey = registry.GetKey(config.Path);
                 if (regKey == null)
                 {
                     continue;
                 }
 
-                foreach (RegistryKey tempKey in regKey.SubKeys())
+                foreach (RegistryKey tempKey in regKey.SubKeys)
                 {
-                    ProcessClsid(registry, config.Path, "BHO", tempKey.Name, tempKey.Name, file);
+                    ProcessClsid(registry, config.Path, "BHO", tempKey.KeyName, tempKey.KeyName, file);
                 }
             }
         }
@@ -662,7 +701,7 @@ namespace autorunner
                                   string type,
                                   string info,
                                   string sourceFile,
-                                  DateTime regModified)
+                                  DateTimeOffset? regModified)
         {
             ProcessEntry(filePath, path, type, info, sourceFile, string.Empty, string.Empty, regModified);
         }
@@ -683,7 +722,7 @@ namespace autorunner
                                   string sourceFile, 
                                   string serviceDisplayName, 
                                   string serviceDescription,
-                                  DateTime regModified)
+                                  DateTimeOffset? regModified)
         {
             try
             {
@@ -790,13 +829,16 @@ namespace autorunner
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        private Registry.Registry OpenRegistry(string file)
+        private Registry.RegistryHiveOnDemand OpenRegistry(string file)
         {
             try
             {
-                return new Registry.Registry(file);
+                return new Registry.RegistryHiveOnDemand(file);
             }
-            catch (Exception) { return null; }
+            catch (Exception ex) 
+            {
+                return null; 
+            }
         }
 
         /// <summary>
@@ -805,12 +847,12 @@ namespace autorunner
         /// <param name="registry"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        private Registry.RegistryKey OpenKey(Registry.Registry registry,
-                                             string key)
+        private Registry.Abstractions.RegistryKey OpenKey(Registry.RegistryHiveOnDemand registry,
+                                                          string key)
         {
             try
             {
-                return registry.Open(key);
+                return registry.GetKey(key);
             }
             catch (Exception ex) 
             { 

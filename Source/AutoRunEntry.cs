@@ -28,7 +28,7 @@ namespace autorunner
         public DateTime FileSystemCreated { get; set; }
         public DateTime FileSystemModified { get; set; }
         public DateTime FileSystemAccessed { get; set; }
-        public DateTime RegistryModified { get; set; }
+        public DateTimeOffset? RegistryModified { get; set; }
         public string SourceFile { get; set; }
         public string ServiceDisplayName { get; set; }
         public string ServiceDescription { get; set; }
@@ -158,12 +158,7 @@ namespace autorunner
         {
             get
             {
-                if (RegistryModified == DateTime.MinValue)
-                {
-                    return string.Empty;
-                }
-
-                return RegistryModified.ToString("s");
+                return RegistryModified != null ? RegistryModified.Value.ToString("s") : ""; //RegistryModified.ToString("s"); 
             }
         }
         #endregion

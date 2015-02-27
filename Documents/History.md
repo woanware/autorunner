@@ -1,5 +1,9 @@
 # History #
 
+**v0.0.10**
+
+- Updated to use Eric Zimmermans Registry library (https://github.com/EricZimmerman/Registry)
+
 **v0.0.9**
 
 - Updated to use .Net 4.5.2
