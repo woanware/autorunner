@@ -1,5 +1,10 @@
 # History #
 
+**v0.0.11**
+
+- Updated the version of the Registry library (github.com/EricZimmerman/Registry) due to a case sensitivity bug which meant paths were not correctly identified.
+- Updated to use v4.6.1 of the .Net Framework
+
 **v0.0.10**
 
 - Updated to use Eric Zimmermans Registry library (https://github.com/EricZimmerman/Registry)
