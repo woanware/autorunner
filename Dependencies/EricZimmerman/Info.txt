@@ -1,2 +1,2 @@
 URL: https://github.com/EricZimmerman/Registry
-Commit: 7b8113ca26af87daa6e5fbe8c17b4e7dc6f5648b
+Commit: 2596128200c37d36fe86e7e971d8d9e92f1c6ab5
