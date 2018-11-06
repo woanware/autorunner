@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using woanware;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace autorunner
 {
@@ -35,6 +36,13 @@ namespace autorunner
             {
                 UserInterface.DisplayMessageBox(this, "The path to the directory containing the registry hives must be entered", MessageBoxIcon.Exclamation);
                 txtRegistryPath.Select();
+                return;
+            }
+
+            if (txtCatalogPath.Text.Trim().Length == 0)
+            {
+                UserInterface.DisplayMessageBox(this, "The path to the directory containing the Windows catalog files must be entered", MessageBoxIcon.Exclamation);
+                txtCatalogPath.Select();
                 return;
             }
 
@@ -169,6 +177,38 @@ namespace autorunner
 
             SetListViewButtonStatus();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRegistryPath_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = txtRegistryPath.Text;
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog(this.Handle) == CommonFileDialogResult.Ok)
+            {
+                txtRegistryPath.Text = dialog.FileName;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCatalogPath_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = txtCatalogPath.Text;
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog(this.Handle) == CommonFileDialogResult.Ok)
+            {
+                txtCatalogPath.Text = dialog.FileName;
+            }
+        }
         #endregion
 
         #region Properties
@@ -196,7 +236,7 @@ namespace autorunner
         }
         #endregion        
 
-        #region List Event Handlers
+        #region List Event Handlers/Methods
         /// <summary>
         /// 
         /// </summary>
@@ -216,7 +256,6 @@ namespace autorunner
         {
             btnEdit_Click(this, new EventArgs());
         }
-        #endregion
 
         /// <summary>
         /// 
@@ -238,5 +277,6 @@ namespace autorunner
             olvcMapped.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
             olvcWindowsDrive.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+        #endregion
     }
 }

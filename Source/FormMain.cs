@@ -304,41 +304,41 @@ namespace autorunner
         /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
-            if (File.Exists(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe")) == false)
-            {
-                DialogResult dialogResult = UserInterface.DisplayQuestionMessageBox(this, "The Sysinternals sigcheck tool does not exist in the Tools directory. The application cannot run without it. Do you want to download the zip file?");
-                if (dialogResult == System.Windows.Forms.DialogResult.No)
-                {
-                    Application.Exit();
-                    return;
-                }
+            //if (File.Exists(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe")) == false)
+            //{
+            //    DialogResult dialogResult = UserInterface.DisplayQuestionMessageBox(this, "The Sysinternals sigcheck tool does not exist in the Tools directory. The application cannot run without it. Do you want to download the zip file?");
+            //    if (dialogResult == System.Windows.Forms.DialogResult.No)
+            //    {
+            //        Application.Exit();
+            //        return;
+            //    }
 
-                WebClient wc = new WebClient();
-                byte[] data = wc.DownloadData("http://download.sysinternals.com/files/Sigcheck.zip");
-                using (ZipFile zipFile = ZipFile.Read(new MemoryStream(data)))
-                {
-                    foreach (ZipEntry zipEntry in zipFile)
-                    {
-                        if (zipEntry.FileName.ToLower().Equals("sigcheck.exe") == false)
-                        {
-                            continue;
-                        }
+            //    WebClient wc = new WebClient();
+            //    byte[] data = wc.DownloadData("http://download.sysinternals.com/files/Sigcheck.zip");
+            //    using (ZipFile zipFile = ZipFile.Read(new MemoryStream(data)))
+            //    {
+            //        foreach (ZipEntry zipEntry in zipFile)
+            //        {
+            //            if (zipEntry.FileName.ToLower().Equals("sigcheck.exe") == false)
+            //            {
+            //                continue;
+            //            }
 
-                        zipEntry.Extract(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools"), ExtractExistingFileAction.OverwriteSilently);
-                    }
-                }
+            //            zipEntry.Extract(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools"), ExtractExistingFileAction.OverwriteSilently);
+            //        }
+            //    }
 
-                if (File.Exists(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe")) == false)
-                {
-                    UserInterface.DisplayErrorMessageBox(this, "Unable to download sigcheck tool. Download manually and copy to the Tools directory");
-                    Application.Exit();
-                    return;
-                }
-                else
-                {
-                    UserInterface.DisplayMessageBox(this, "The sigcheck tool was successfully downloaded", MessageBoxIcon.Information);
-                }
-            }
+            //    if (File.Exists(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe")) == false)
+            //    {
+            //        UserInterface.DisplayErrorMessageBox(this, "Unable to download sigcheck tool. Download manually and copy to the Tools directory");
+            //        Application.Exit();
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        UserInterface.DisplayMessageBox(this, "The sigcheck tool was successfully downloaded", MessageBoxIcon.Information);
+            //    }
+            //}
 
             _configuration = new Configuration();
             string ret = _configuration.Load();

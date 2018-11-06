@@ -95,6 +95,7 @@ namespace autorunner
             // 
             // menuStrip
             // 
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.menuHelp});
@@ -102,7 +103,7 @@ namespace autorunner
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip.Size = new System.Drawing.Size(1346, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1346, 38);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -115,20 +116,20 @@ namespace autorunner
             this.menuFileSep2,
             this.menuFileExit});
             this.menuFile.Name = "menuFile";
-            this.menuFile.Size = new System.Drawing.Size(37, 20);
+            this.menuFile.Size = new System.Drawing.Size(56, 34);
             this.menuFile.Text = "File";
             // 
             // menuFileImport
             // 
             this.menuFileImport.Name = "menuFileImport";
-            this.menuFileImport.Size = new System.Drawing.Size(110, 22);
+            this.menuFileImport.Size = new System.Drawing.Size(166, 34);
             this.menuFileImport.Text = "Import";
             this.menuFileImport.Click += new System.EventHandler(this.menuFileImport_Click);
             // 
             // menuFileSep1
             // 
             this.menuFileSep1.Name = "menuFileSep1";
-            this.menuFileSep1.Size = new System.Drawing.Size(107, 6);
+            this.menuFileSep1.Size = new System.Drawing.Size(163, 6);
             // 
             // menuFileExport
             // 
@@ -136,32 +137,32 @@ namespace autorunner
             this.menuFileExportAll,
             this.menuFileExportMd5});
             this.menuFileExport.Name = "menuFileExport";
-            this.menuFileExport.Size = new System.Drawing.Size(110, 22);
+            this.menuFileExport.Size = new System.Drawing.Size(166, 34);
             this.menuFileExport.Text = "Export";
             // 
             // menuFileExportAll
             // 
             this.menuFileExportAll.Name = "menuFileExportAll";
-            this.menuFileExportAll.Size = new System.Drawing.Size(99, 22);
+            this.menuFileExportAll.Size = new System.Drawing.Size(149, 34);
             this.menuFileExportAll.Text = "All";
             this.menuFileExportAll.Click += new System.EventHandler(this.menuFileExportAll_Click);
             // 
             // menuFileExportMd5
             // 
             this.menuFileExportMd5.Name = "menuFileExportMd5";
-            this.menuFileExportMd5.Size = new System.Drawing.Size(99, 22);
+            this.menuFileExportMd5.Size = new System.Drawing.Size(149, 34);
             this.menuFileExportMd5.Text = "MD5";
             this.menuFileExportMd5.Click += new System.EventHandler(this.menuFileExportMd5_Click);
             // 
             // menuFileSep2
             // 
             this.menuFileSep2.Name = "menuFileSep2";
-            this.menuFileSep2.Size = new System.Drawing.Size(107, 6);
+            this.menuFileSep2.Size = new System.Drawing.Size(163, 6);
             // 
             // menuFileExit
             // 
             this.menuFileExit.Name = "menuFileExit";
-            this.menuFileExit.Size = new System.Drawing.Size(110, 22);
+            this.menuFileExit.Size = new System.Drawing.Size(166, 34);
             this.menuFileExit.Text = "Exit";
             this.menuFileExit.Click += new System.EventHandler(this.menuFileExit_Click);
             // 
@@ -172,37 +173,38 @@ namespace autorunner
             this.menuHelpSep1,
             this.menuHelpAbout});
             this.menuHelp.Name = "menuHelp";
-            this.menuHelp.Size = new System.Drawing.Size(44, 20);
+            this.menuHelp.Size = new System.Drawing.Size(68, 34);
             this.menuHelp.Text = "Help";
             // 
             // menuHelpHelp
             // 
             this.menuHelpHelp.Name = "menuHelpHelp";
-            this.menuHelpHelp.Size = new System.Drawing.Size(107, 22);
+            this.menuHelpHelp.Size = new System.Drawing.Size(161, 34);
             this.menuHelpHelp.Text = "Help";
             this.menuHelpHelp.Click += new System.EventHandler(this.menuHelpHelp_Click);
             // 
             // menuHelpSep1
             // 
             this.menuHelpSep1.Name = "menuHelpSep1";
-            this.menuHelpSep1.Size = new System.Drawing.Size(104, 6);
+            this.menuHelpSep1.Size = new System.Drawing.Size(158, 6);
             // 
             // menuHelpAbout
             // 
             this.menuHelpAbout.Name = "menuHelpAbout";
-            this.menuHelpAbout.Size = new System.Drawing.Size(107, 22);
+            this.menuHelpAbout.Size = new System.Drawing.Size(161, 34);
             this.menuHelpAbout.Text = "About";
             this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
             // 
             // toolStrip
             // 
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolBtnImport,
             this.toolBtnExport});
-            this.toolStrip.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip.Location = new System.Drawing.Point(0, 38);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip.Size = new System.Drawing.Size(1346, 25);
+            this.toolStrip.Size = new System.Drawing.Size(1346, 35);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -212,7 +214,7 @@ namespace autorunner
             this.toolBtnImport.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnImport.Image")));
             this.toolBtnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBtnImport.Name = "toolBtnImport";
-            this.toolBtnImport.Size = new System.Drawing.Size(23, 22);
+            this.toolBtnImport.Size = new System.Drawing.Size(32, 32);
             this.toolBtnImport.ToolTipText = "Import";
             this.toolBtnImport.Click += new System.EventHandler(this.toolBtnImport_Click);
             // 
@@ -222,15 +224,16 @@ namespace autorunner
             this.toolBtnExport.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnExport.Image")));
             this.toolBtnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBtnExport.Name = "toolBtnExport";
-            this.toolBtnExport.Size = new System.Drawing.Size(23, 22);
+            this.toolBtnExport.Size = new System.Drawing.Size(32, 32);
             this.toolBtnExport.ToolTipText = "Export";
             this.toolBtnExport.Click += new System.EventHandler(this.toolBtnExport_Click);
             // 
             // statusStrip
             // 
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 293);
+            this.statusStrip.Location = new System.Drawing.Point(0, 1004);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.statusStrip.Size = new System.Drawing.Size(1346, 22);
@@ -293,12 +296,12 @@ namespace autorunner
             this.listEntries.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listEntries.FullRowSelect = true;
             this.listEntries.HideSelection = false;
-            this.listEntries.Location = new System.Drawing.Point(0, 49);
+            this.listEntries.Location = new System.Drawing.Point(0, 73);
             this.listEntries.MultiSelect = false;
             this.listEntries.Name = "listEntries";
             this.listEntries.OwnerDraw = true;
             this.listEntries.ShowGroups = false;
-            this.listEntries.Size = new System.Drawing.Size(1346, 244);
+            this.listEntries.Size = new System.Drawing.Size(1346, 931);
             this.listEntries.SmallImageList = this.imageList;
             this.listEntries.TabIndex = 3;
             this.listEntries.UseCompatibleStateImageBehavior = false;
@@ -308,147 +311,126 @@ namespace autorunner
             // olvcType
             // 
             this.olvcType.AspectName = "Type";
-            this.olvcType.CellPadding = null;
             this.olvcType.IsTileViewColumn = true;
             this.olvcType.Text = "Type";
             // 
             // olvcPath
             // 
             this.olvcPath.AspectName = "Path";
-            this.olvcPath.CellPadding = null;
             this.olvcPath.Text = "Path";
             // 
             // olvcFilePath
             // 
             this.olvcFilePath.AspectName = "FilePath";
-            this.olvcFilePath.CellPadding = null;
             this.olvcFilePath.Text = "File Path";
             // 
             // olvcFileName
             // 
             this.olvcFileName.AspectName = "FileName";
-            this.olvcFileName.CellPadding = null;
             this.olvcFileName.Text = "File Name";
             // 
             // olvcParameters
             // 
             this.olvcParameters.AspectName = "Parameters";
-            this.olvcParameters.CellPadding = null;
             this.olvcParameters.Text = "Parameters";
             // 
             // olvcServiceDisplayName
             // 
             this.olvcServiceDisplayName.AspectName = "ServiceDisplayName";
-            this.olvcServiceDisplayName.CellPadding = null;
             this.olvcServiceDisplayName.Text = "Service Display Name";
             this.olvcServiceDisplayName.Width = 62;
             // 
             // olvcServiceDescription
             // 
             this.olvcServiceDescription.AspectName = "ServiceDescription";
-            this.olvcServiceDescription.CellPadding = null;
             this.olvcServiceDescription.Text = "Service Description";
             this.olvcServiceDescription.Width = 129;
             // 
             // olvcExists
             // 
             this.olvcExists.AspectName = "Exists";
-            this.olvcExists.CellPadding = null;
             this.olvcExists.Text = "Exists";
             // 
             // olvcVerified
             // 
             this.olvcVerified.AspectName = "Verified";
-            this.olvcVerified.CellPadding = null;
             this.olvcVerified.Text = "Verified";
             // 
             // olvcStrongName
             // 
             this.olvcStrongName.AspectName = "StrongName";
-            this.olvcStrongName.CellPadding = null;
             this.olvcStrongName.Text = "Strong Named";
             this.olvcStrongName.Width = 59;
             // 
             // olvcPublisher
             // 
             this.olvcPublisher.AspectName = "FilePublisher";
-            this.olvcPublisher.CellPadding = null;
             this.olvcPublisher.Text = "Publisher";
             // 
             // olvcFileDate
             // 
             this.olvcFileDate.AspectName = "FileDateText";
-            this.olvcFileDate.CellPadding = null;
             this.olvcFileDate.Text = "File Date";
             // 
             // olvcSigningDate
             // 
             this.olvcSigningDate.AspectName = "SigningDateText";
-            this.olvcSigningDate.CellPadding = null;
             this.olvcSigningDate.Text = "Signing Date";
             this.olvcSigningDate.Width = 94;
             // 
             // olvcVersion
             // 
             this.olvcVersion.AspectName = "Version";
-            this.olvcVersion.CellPadding = null;
             this.olvcVersion.Text = "Version";
             // 
             // olvcMd5
             // 
             this.olvcMd5.AspectName = "Md5";
-            this.olvcMd5.CellPadding = null;
             this.olvcMd5.Text = "MD5";
             // 
             // olvcFileSystemCreated
             // 
             this.olvcFileSystemCreated.AspectName = "FileSystemCreated";
-            this.olvcFileSystemCreated.CellPadding = null;
             this.olvcFileSystemCreated.Text = "File System Created";
             // 
             // olvcFileSystemAccessed
             // 
             this.olvcFileSystemAccessed.AspectName = "FileSystemAccessed";
-            this.olvcFileSystemAccessed.CellPadding = null;
             this.olvcFileSystemAccessed.Text = "File System Accessed";
             // 
             // olvcFileSystemModified
             // 
             this.olvcFileSystemModified.AspectName = "FileSystemModified";
-            this.olvcFileSystemModified.CellPadding = null;
             this.olvcFileSystemModified.Text = "File System Modified";
             // 
             // olvcRegistryModifed
             // 
             this.olvcRegistryModifed.AspectName = "RegistryModified";
-            this.olvcRegistryModifed.CellPadding = null;
             this.olvcRegistryModifed.Text = "Registry Modified";
             // 
             // olvcDescription
             // 
             this.olvcDescription.AspectName = "FileDescription";
-            this.olvcDescription.CellPadding = null;
             this.olvcDescription.Text = "Description";
             // 
             // olvcInfo
             // 
             this.olvcInfo.AspectName = "Info";
-            this.olvcInfo.CellPadding = null;
             this.olvcInfo.Text = "Info";
             // 
             // olvcSourceFile
             // 
             this.olvcSourceFile.AspectName = "SourceFile";
-            this.olvcSourceFile.CellPadding = null;
             this.olvcSourceFile.Text = "Source File";
             // 
             // context
             // 
+            this.context.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.context.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextCopy});
             this.context.Name = "context";
             this.context.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.context.Size = new System.Drawing.Size(103, 26);
+            this.context.Size = new System.Drawing.Size(134, 38);
             this.context.Opening += new System.ComponentModel.CancelEventHandler(this.context_Opening);
             // 
             // contextCopy
@@ -467,90 +449,90 @@ namespace autorunner
             this.contextCopyDescription,
             this.contextCopyInfo});
             this.contextCopy.Name = "contextCopy";
-            this.contextCopy.Size = new System.Drawing.Size(102, 22);
+            this.contextCopy.Size = new System.Drawing.Size(133, 34);
             this.contextCopy.Text = "Copy";
             // 
             // contextCopyType
             // 
             this.contextCopyType.Name = "contextCopyType";
-            this.contextCopyType.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyType.Size = new System.Drawing.Size(223, 34);
             this.contextCopyType.Text = "Type";
             this.contextCopyType.Click += new System.EventHandler(this.contextCopyType_Click);
             // 
             // contextCopyPath
             // 
             this.contextCopyPath.Name = "contextCopyPath";
-            this.contextCopyPath.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyPath.Size = new System.Drawing.Size(223, 34);
             this.contextCopyPath.Text = "Path";
             this.contextCopyPath.Click += new System.EventHandler(this.contextCopyPath_Click);
             // 
             // contextCopyFilePath
             // 
             this.contextCopyFilePath.Name = "contextCopyFilePath";
-            this.contextCopyFilePath.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyFilePath.Size = new System.Drawing.Size(223, 34);
             this.contextCopyFilePath.Text = "File Path";
             this.contextCopyFilePath.Click += new System.EventHandler(this.contextCopyFilePath_Click);
             // 
             // contextCopyFileName
             // 
             this.contextCopyFileName.Name = "contextCopyFileName";
-            this.contextCopyFileName.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyFileName.Size = new System.Drawing.Size(223, 34);
             this.contextCopyFileName.Text = "File Name";
             this.contextCopyFileName.Click += new System.EventHandler(this.contextCopyFileName_Click);
             // 
             // contextCopyParameters
             // 
             this.contextCopyParameters.Name = "contextCopyParameters";
-            this.contextCopyParameters.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyParameters.Size = new System.Drawing.Size(223, 34);
             this.contextCopyParameters.Text = "Parameters";
             this.contextCopyParameters.Click += new System.EventHandler(this.contextCopyParameters_Click);
             // 
             // contextCopyPublisher
             // 
             this.contextCopyPublisher.Name = "contextCopyPublisher";
-            this.contextCopyPublisher.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyPublisher.Size = new System.Drawing.Size(223, 34);
             this.contextCopyPublisher.Text = "Publisher";
             this.contextCopyPublisher.Click += new System.EventHandler(this.contextCopyPublisher_Click);
             // 
             // contextCopyFileDate
             // 
             this.contextCopyFileDate.Name = "contextCopyFileDate";
-            this.contextCopyFileDate.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyFileDate.Size = new System.Drawing.Size(223, 34);
             this.contextCopyFileDate.Text = "File Date";
             this.contextCopyFileDate.Click += new System.EventHandler(this.contextCopyFileDate_Click);
             // 
             // contextCopySigningDate
             // 
             this.contextCopySigningDate.Name = "contextCopySigningDate";
-            this.contextCopySigningDate.Size = new System.Drawing.Size(141, 22);
+            this.contextCopySigningDate.Size = new System.Drawing.Size(223, 34);
             this.contextCopySigningDate.Text = "Signing Date";
             this.contextCopySigningDate.Click += new System.EventHandler(this.contextCopySigningDate_Click);
             // 
             // contextCopyVersion
             // 
             this.contextCopyVersion.Name = "contextCopyVersion";
-            this.contextCopyVersion.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyVersion.Size = new System.Drawing.Size(223, 34);
             this.contextCopyVersion.Text = "Version";
             this.contextCopyVersion.Click += new System.EventHandler(this.contextCopyVersion_Click);
             // 
             // contextCopyMd5
             // 
             this.contextCopyMd5.Name = "contextCopyMd5";
-            this.contextCopyMd5.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyMd5.Size = new System.Drawing.Size(223, 34);
             this.contextCopyMd5.Text = "MD5";
             this.contextCopyMd5.Click += new System.EventHandler(this.contextCopyMd5_Click);
             // 
             // contextCopyDescription
             // 
             this.contextCopyDescription.Name = "contextCopyDescription";
-            this.contextCopyDescription.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyDescription.Size = new System.Drawing.Size(223, 34);
             this.contextCopyDescription.Text = "Description";
             this.contextCopyDescription.Click += new System.EventHandler(this.contextCopyDescription_Click);
             // 
             // contextCopyInfo
             // 
             this.contextCopyInfo.Name = "contextCopyInfo";
-            this.contextCopyInfo.Size = new System.Drawing.Size(141, 22);
+            this.contextCopyInfo.Size = new System.Drawing.Size(223, 34);
             this.contextCopyInfo.Text = "Info";
             this.contextCopyInfo.Click += new System.EventHandler(this.contextCopyInfo_Click);
             // 
@@ -562,9 +544,9 @@ namespace autorunner
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1346, 315);
+            this.ClientSize = new System.Drawing.Size(1346, 1026);
             this.Controls.Add(this.listEntries);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);

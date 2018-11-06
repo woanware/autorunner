@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using woanware;
 using Registry.Abstractions;
+using wincatalogdotnet;
 
 namespace autorunner
 {
@@ -35,9 +36,10 @@ namespace autorunner
         private List<AutoRunEntry> _entries;
         private string _registryPath;
         private string _windowsVolume;
-        private string _sigCheckPath;
+        //private string _sigCheckPath;
         private List<DriveMapping> _driveMappings;
         private bool _hasErrors = false;
+        private HashSet<string> hashes = new HashSet<string>();
         #endregion
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace autorunner
             var windowsDrive = (from d in _driveMappings where d.IsWindowsDrive == true select d).SingleOrDefault();
             _windowsVolume = System.IO.Path.GetPathRoot(windowsDrive.MappedDrive);
 
-            _sigCheckPath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe");
+            //_sigCheckPath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe");
 
             Thread thread = new Thread(new ThreadStart(Process));
             thread.IsBackground = true;
@@ -78,6 +80,8 @@ namespace autorunner
         /// </summary>
         private void Process()
         {
+            LoadCatalogHashes(); 
+
             IntPtr ptr = new IntPtr();
             Native.Wow64DisableWow64FsRedirection(ref ptr);
 
@@ -125,6 +129,26 @@ namespace autorunner
 
             OnComplete();
             IsRunning = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadCatalogHashes()
+        {
+            //DirectoryInfo d = new DirectoryInfo(_windowsVolume  @"C:\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}");
+
+            //hashes = new HashSet<string>();
+
+            //foreach (var file in d.GetFiles("*.cat"))
+            //{
+            //    int catVer;
+            //    var temp = WinCatalog.GetHashesFromCatalog(file.FullName, out catVer);
+            //    foreach (string hash in temp)
+            //    {
+            //        hashes.Add(hash);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -802,8 +826,8 @@ namespace autorunner
                         autoRunEntry.FileSystemModified = fileInfo.LastWriteTime;
                         autoRunEntry.RegistryModified = regModified;
 
-                        string output = Misc.ShellProcessWithOutput(_sigCheckPath, Global.SIGCHECK_FLAGS + "\"" + autoRunEntry.FilePath + "\"");
-                        autoRunEntry = Helper.ParseSigCheckOutput(autoRunEntry, output);
+                        //string output = Misc.ShellProcessWithOutput(_sigCheckPath, Global.SIGCHECK_FLAGS + "\"" + autoRunEntry.FilePath + "\"");
+                        //autoRunEntry = Helper.ParseSigCheckOutput(autoRunEntry, output);
                         autoRunEntry.Md5 = Security.GenerateMd5HashStream(autoRunEntry.FilePath);
 
                         OnEntryFound(autoRunEntry);
