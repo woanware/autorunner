@@ -35,11 +35,12 @@ namespace autorunner
         private Configuration _configuration;
         private List<AutoRunEntry> _entries;
         private string _registryPath;
+        private string _catalogPath;
         private string _windowsVolume;
         //private string _sigCheckPath;
         private List<DriveMapping> _driveMappings;
         private bool _hasErrors = false;
-        private HashSet<string> hashes = new HashSet<string>();
+        private Dictionary<string, bool> hashes = new Dictionary<string, bool>();
         #endregion
 
         /// <summary>
@@ -48,9 +49,11 @@ namespace autorunner
         /// <param name="configuration"></param>
         /// <param name="driveMappings"></param>
         /// <param name="registryPath"></param>
+        /// <param name="catalogPath"></param>
         public void Start(Configuration configuration,
                           List<DriveMapping> driveMappings, 
-                          string registryPath)
+                          string registryPath,
+                          string catalogPath)
         {
             if (IsRunning == true)
             {
@@ -63,6 +66,7 @@ namespace autorunner
             _configuration = configuration;
             _driveMappings = driveMappings;
             _registryPath = registryPath;
+            _catalogPath = catalogPath;
 
             // Get the windows drive mapping
             var windowsDrive = (from d in _driveMappings where d.IsWindowsDrive == true select d).SingleOrDefault();
@@ -136,19 +140,19 @@ namespace autorunner
         /// </summary>
         private void LoadCatalogHashes()
         {
-            //DirectoryInfo d = new DirectoryInfo(_windowsVolume  @"C:\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}");
+            string[] files = System.IO.Directory.GetFiles(_catalogPath, "*.cat", SearchOption.AllDirectories);
 
-            //hashes = new HashSet<string>();
+            hashes = new Dictionary<string, bool>();
 
-            //foreach (var file in d.GetFiles("*.cat"))
-            //{
-            //    int catVer;
-            //    var temp = WinCatalog.GetHashesFromCatalog(file.FullName, out catVer);
-            //    foreach (string hash in temp)
-            //    {
-            //        hashes.Add(hash);
-            //    }
-            //}
+            foreach (var file in files)
+            {
+                int catVer;
+                var temp = WinCatalog.GetHashesFromCatalog(file, out catVer);
+                foreach (string hash in temp)
+                {
+                    hashes[hash] = true;
+                }
+            }
         }
 
         /// <summary>
@@ -828,7 +832,9 @@ namespace autorunner
 
                         //string output = Misc.ShellProcessWithOutput(_sigCheckPath, Global.SIGCHECK_FLAGS + "\"" + autoRunEntry.FilePath + "\"");
                         //autoRunEntry = Helper.ParseSigCheckOutput(autoRunEntry, output);
+                        autoRunEntry = Helper.GetFileInformation(hashes, autoRunEntry);
                         autoRunEntry.Md5 = Security.GenerateMd5HashStream(autoRunEntry.FilePath);
+                        autoRunEntry.Sha256 = Helper.GetFileSha256Hash(autoRunEntry.FilePath);
 
                         OnEntryFound(autoRunEntry);
                     }

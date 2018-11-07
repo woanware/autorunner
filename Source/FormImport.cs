@@ -226,6 +226,17 @@ namespace autorunner
         /// <summary>
         /// 
         /// </summary>
+        public string CatalogPath
+        {
+            get
+            {
+                return txtCatalogPath.Text;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public List<DriveMapping> DriveMappings
         {
             get

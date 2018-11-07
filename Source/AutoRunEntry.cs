@@ -25,6 +25,7 @@ namespace autorunner
         public string Info { get; set; }
         public string Guid { get; private set; }
         public string Md5 { get; set; }
+        public string Sha256 { get; set; }
         public DateTime FileSystemCreated { get; set; }
         public DateTime FileSystemModified { get; set; }
         public DateTime FileSystemAccessed { get; set; }
@@ -32,6 +33,7 @@ namespace autorunner
         public string SourceFile { get; set; }
         public string ServiceDisplayName { get; set; }
         public string ServiceDescription { get; set; }
+        public string InternalName { get; set; }
         public string Error { get; set; }
         #endregion
 

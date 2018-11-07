@@ -1,8 +1,11 @@
 using BrightIdeasSoftware;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using woanware;
@@ -80,6 +83,59 @@ namespace autorunner
             }
 
             return autoRunEntry;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="are"></param>
+        /// <returns></returns>
+        public static AutoRunEntry GetFileInformation(Dictionary<string, bool> hashes, AutoRunEntry are)
+        {
+            try
+            {
+                string sha256 = wincatalogdotnet.WinCatalog.CalculateFileHash(are.FilePath, "SHA256");
+                if (hashes.ContainsKey(sha256) == true)
+                {
+                    are.Verified = "True";
+                }
+                else
+                {
+                    string sha1 = wincatalogdotnet.WinCatalog.CalculateFileHash(are.FilePath, "SHA1");
+                    if (hashes.ContainsKey(sha1) == true)
+                    {
+                        are.Verified = "True";
+                    }
+                    else
+                    {
+                        are.Verified = "False";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, are.FilePath);
+                are.Verified = "Error";
+            }
+            
+            try
+            {
+                FileInfo fi = new System.IO.FileInfo(are.FilePath);
+                are.FileDate = fi.CreationTime;
+
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(are.FilePath);
+                are.FilePublisher = fvi.CompanyName;
+                are.FileDescription = fvi.FileDescription;
+                are.Version = fvi.ProductVersion;
+                are.FileVersion = fvi.FileVersion;
+                are.InternalName = fvi.InternalName;
+            }
+            catch (Exception ex)
+            {
+                Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, are.FilePath);
+            }            
+
+            return are;
         }
 
         /// <summary>
@@ -489,6 +545,21 @@ namespace autorunner
                     return "Copied \"Version\" to clipboard";
                 default:
                     return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static string GetFileSha256Hash(string filePath)
+        {
+            using (FileStream stream = File.OpenRead(filePath))
+            {
+                var sha = new SHA256Managed();
+                byte[] checksum = sha.ComputeHash(stream);
+                return BitConverter.ToString(checksum).Replace("-", String.Empty);
             }
         }
 

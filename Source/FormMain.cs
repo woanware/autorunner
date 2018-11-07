@@ -43,13 +43,17 @@ namespace autorunner
                 AutoRunEntry autoRunEntry = (AutoRunEntry)olvi.RowObject;
                 if (autoRunEntry.Exists == false)
                 {
-                    olvi.BackColor = Color.FromArgb(255, 246, 127); // Yellow
+                    olvi.BackColor = Color.FromArgb(255, 255, 153); // Yellow
                 }
                 else
                 {
-                    if (autoRunEntry.Verified.ToLower() != "signed")
+                    if (autoRunEntry.Verified.ToLower() != "true")
                     {
-                        olvi.BackColor = Color.FromArgb(255, 94, 76); // Red
+                        olvi.BackColor = Color.FromArgb(255, 83, 83); // Red
+                    }
+                    else
+                    {
+                        olvi.BackColor = Color.FromArgb(66, 244, 140); // Red
                     }
                 }
             };
@@ -74,6 +78,11 @@ namespace autorunner
             {
                 foreach (ColumnHeader colHeader in listEntries.Columns)
                 {
+                    if (colHeader.Name == "olvcMd5" || colHeader.Name == "olvcSha256")
+                    {
+                        continue;
+                    }
+
                     colHeader.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
                 }
 
@@ -121,7 +130,7 @@ namespace autorunner
 
                 _hourGlass = new HourGlass(this);
                 SetProcessingState(true);
-                _importer.Start(_configuration, formImport.DriveMappings, formImport.RegistryPath);
+                _importer.Start(_configuration, formImport.DriveMappings, formImport.RegistryPath, formImport.CatalogPath);
             }
         }
 

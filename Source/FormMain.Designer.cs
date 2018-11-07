@@ -86,6 +86,8 @@ namespace autorunner
             this.contextCopyDescription = new System.Windows.Forms.ToolStripMenuItem();
             this.contextCopyInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.olvcInternalName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvcSha256 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -103,7 +105,7 @@ namespace autorunner
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip.Size = new System.Drawing.Size(1346, 38);
+            this.menuStrip.Size = new System.Drawing.Size(2069, 38);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -204,7 +206,7 @@ namespace autorunner
             this.toolStrip.Location = new System.Drawing.Point(0, 38);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip.Size = new System.Drawing.Size(1346, 35);
+            this.toolStrip.Size = new System.Drawing.Size(2069, 35);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -236,7 +238,7 @@ namespace autorunner
             this.statusStrip.Location = new System.Drawing.Point(0, 1004);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1346, 22);
+            this.statusStrip.Size = new System.Drawing.Size(2069, 22);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -256,12 +258,14 @@ namespace autorunner
             this.listEntries.AllColumns.Add(this.olvcServiceDescription);
             this.listEntries.AllColumns.Add(this.olvcExists);
             this.listEntries.AllColumns.Add(this.olvcVerified);
+            this.listEntries.AllColumns.Add(this.olvcInternalName);
             this.listEntries.AllColumns.Add(this.olvcStrongName);
             this.listEntries.AllColumns.Add(this.olvcPublisher);
             this.listEntries.AllColumns.Add(this.olvcFileDate);
             this.listEntries.AllColumns.Add(this.olvcSigningDate);
             this.listEntries.AllColumns.Add(this.olvcVersion);
             this.listEntries.AllColumns.Add(this.olvcMd5);
+            this.listEntries.AllColumns.Add(this.olvcSha256);
             this.listEntries.AllColumns.Add(this.olvcFileSystemCreated);
             this.listEntries.AllColumns.Add(this.olvcFileSystemAccessed);
             this.listEntries.AllColumns.Add(this.olvcFileSystemModified);
@@ -279,12 +283,14 @@ namespace autorunner
             this.olvcServiceDescription,
             this.olvcExists,
             this.olvcVerified,
+            this.olvcInternalName,
             this.olvcStrongName,
             this.olvcPublisher,
             this.olvcFileDate,
             this.olvcSigningDate,
             this.olvcVersion,
             this.olvcMd5,
+            this.olvcSha256,
             this.olvcFileSystemCreated,
             this.olvcFileSystemAccessed,
             this.olvcFileSystemModified,
@@ -301,7 +307,7 @@ namespace autorunner
             this.listEntries.Name = "listEntries";
             this.listEntries.OwnerDraw = true;
             this.listEntries.ShowGroups = false;
-            this.listEntries.Size = new System.Drawing.Size(1346, 931);
+            this.listEntries.Size = new System.Drawing.Size(2069, 931);
             this.listEntries.SmallImageList = this.imageList;
             this.listEntries.TabIndex = 3;
             this.listEntries.UseCompatibleStateImageBehavior = false;
@@ -350,33 +356,37 @@ namespace autorunner
             // 
             this.olvcExists.AspectName = "Exists";
             this.olvcExists.Text = "Exists";
+            this.olvcExists.Width = 182;
             // 
             // olvcVerified
             // 
             this.olvcVerified.AspectName = "Verified";
             this.olvcVerified.Text = "Verified";
+            this.olvcVerified.Width = 192;
             // 
             // olvcStrongName
             // 
             this.olvcStrongName.AspectName = "StrongName";
             this.olvcStrongName.Text = "Strong Named";
-            this.olvcStrongName.Width = 59;
+            this.olvcStrongName.Width = 172;
             // 
             // olvcPublisher
             // 
             this.olvcPublisher.AspectName = "FilePublisher";
             this.olvcPublisher.Text = "Publisher";
+            this.olvcPublisher.Width = 209;
             // 
             // olvcFileDate
             // 
             this.olvcFileDate.AspectName = "FileDateText";
             this.olvcFileDate.Text = "File Date";
+            this.olvcFileDate.Width = 156;
             // 
             // olvcSigningDate
             // 
             this.olvcSigningDate.AspectName = "SigningDateText";
             this.olvcSigningDate.Text = "Signing Date";
-            this.olvcSigningDate.Width = 94;
+            this.olvcSigningDate.Width = 164;
             // 
             // olvcVersion
             // 
@@ -392,16 +402,19 @@ namespace autorunner
             // 
             this.olvcFileSystemCreated.AspectName = "FileSystemCreated";
             this.olvcFileSystemCreated.Text = "File System Created";
+            this.olvcFileSystemCreated.Width = 226;
             // 
             // olvcFileSystemAccessed
             // 
             this.olvcFileSystemAccessed.AspectName = "FileSystemAccessed";
             this.olvcFileSystemAccessed.Text = "File System Accessed";
+            this.olvcFileSystemAccessed.Width = 243;
             // 
             // olvcFileSystemModified
             // 
             this.olvcFileSystemModified.AspectName = "FileSystemModified";
             this.olvcFileSystemModified.Text = "File System Modified";
+            this.olvcFileSystemModified.Width = 280;
             // 
             // olvcRegistryModifed
             // 
@@ -542,11 +555,21 @@ namespace autorunner
             this.imageList.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // olvcInternalName
+            // 
+            this.olvcInternalName.AspectName = "InternalName";
+            this.olvcInternalName.Text = "Internal Name";
+            // 
+            // olvcSha256
+            // 
+            this.olvcSha256.AspectName = "Sha256";
+            this.olvcSha256.Text = "SHA256";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1346, 1026);
+            this.ClientSize = new System.Drawing.Size(2069, 1026);
             this.Controls.Add(this.listEntries);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
@@ -629,6 +652,8 @@ namespace autorunner
         private BrightIdeasSoftware.OLVColumn olvcSourceFile;
         private BrightIdeasSoftware.OLVColumn olvcServiceDisplayName;
         private BrightIdeasSoftware.OLVColumn olvcServiceDescription;
+        private BrightIdeasSoftware.OLVColumn olvcInternalName;
+        private BrightIdeasSoftware.OLVColumn olvcSha256;
     }
 }
 
