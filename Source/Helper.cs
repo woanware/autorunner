@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -30,57 +31,57 @@ namespace autorunner
             Match match = regex.Match(output);
             if (match.Success == true)
             {
-                autoRunEntry.Verified = match.Groups[1].Value.Trim();
+                autoRunEntry.Verified = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(match.Groups[1].Value.Trim());
             }
 
-            regex = new Regex(@"\s+Publisher:\s+?(.*)", RegexOptions.IgnoreCase);
-            match = regex.Match(output);
-            if (match.Success == true)
-            {
-                autoRunEntry.FilePublisher = match.Groups[1].Value.Trim();
-            }
+            //regex = new Regex(@"\s+Publisher:\s+?(.*)", RegexOptions.IgnoreCase);
+            //match = regex.Match(output);
+            //if (match.Success == true)
+            //{
+            //    autoRunEntry.FilePublisher = match.Groups[1].Value.Trim();
+            //}
 
-            regex = new Regex(@"\s+Description:\s+?(.*)", RegexOptions.IgnoreCase);
-            match = regex.Match(output);
-            if (match.Success == true)
-            {
-                autoRunEntry.FileDescription = match.Groups[1].Value.Trim();
-            }
+            //regex = new Regex(@"\s+Description:\s+?(.*)", RegexOptions.IgnoreCase);
+            //match = regex.Match(output);
+            //if (match.Success == true)
+            //{
+            //    autoRunEntry.FileDescription = match.Groups[1].Value.Trim();
+            //}
 
-            regex = new Regex(@"\s+Strong Name:\s+?(.*)", RegexOptions.IgnoreCase);
-            match = regex.Match(output);
-            if (match.Success == true)
-            {
-                autoRunEntry.StrongName = match.Groups[1].Value.Trim();
-            }
+            //regex = new Regex(@"\s+Strong Name:\s+?(.*)", RegexOptions.IgnoreCase);
+            //match = regex.Match(output);
+            //if (match.Success == true)
+            //{
+            //    autoRunEntry.StrongName = match.Groups[1].Value.Trim();
+            //}
 
-            regex = new Regex(@"\s+Version:\s+?(.*)", RegexOptions.IgnoreCase);
-            match = regex.Match(output);
-            if (match.Success == true)
-            {
-                autoRunEntry.Version = match.Groups[1].Value.Trim();
-            }
+            //regex = new Regex(@"\s+Version:\s+?(.*)", RegexOptions.IgnoreCase);
+            //match = regex.Match(output);
+            //if (match.Success == true)
+            //{
+            //    autoRunEntry.Version = match.Groups[1].Value.Trim();
+            //}
 
-            regex = new Regex(@"\s+File version:\s+?(.*)", RegexOptions.IgnoreCase);
-            match = regex.Match(output);
-            if (match.Success == true)
-            {
-                autoRunEntry.FileVersion = match.Groups[1].Value.Trim();
-            }
+            //regex = new Regex(@"\s+File version:\s+?(.*)", RegexOptions.IgnoreCase);
+            //match = regex.Match(output);
+            //if (match.Success == true)
+            //{
+            //    autoRunEntry.FileVersion = match.Groups[1].Value.Trim();
+            //}
 
-            regex = new Regex(@"\s+File date:\s+?(.*)", RegexOptions.IgnoreCase);
-            match = regex.Match(output);
-            if (match.Success == true)
-            {
-                autoRunEntry.FileDate = DateTime.Parse(match.Groups[1].Value.Trim());
-            }
+            //regex = new Regex(@"\s+File date:\s+?(.*)", RegexOptions.IgnoreCase);
+            //match = regex.Match(output);
+            //if (match.Success == true)
+            //{
+            //    autoRunEntry.FileDate = DateTime.Parse(match.Groups[1].Value.Trim());
+            //}
 
-            regex = new Regex(@"\s+Signing date:\s+?(.*)", RegexOptions.IgnoreCase);
-            match = regex.Match(output);
-            if (match.Success == true)
-            {
-                autoRunEntry.SigningDate = DateTime.Parse(match.Groups[1].Value.Trim());
-            }
+            //regex = new Regex(@"\s+Signing date:\s+?(.*)", RegexOptions.IgnoreCase);
+            //match = regex.Match(output);
+            //if (match.Success == true)
+            //{
+            //    autoRunEntry.SigningDate = DateTime.Parse(match.Groups[1].Value.Trim());
+            //}
 
             return autoRunEntry;
         }
@@ -90,10 +91,14 @@ namespace autorunner
         /// </summary>
         /// <param name="are"></param>
         /// <returns></returns>
-        public static AutoRunEntry GetFileInformation(Dictionary<string, bool> hashes, AutoRunEntry are)
+        public static AutoRunEntry GetFileInformation(Dictionary<string, bool> hashes, string sigCheckPath, AutoRunEntry are)
         {
             try
             {
+                if (are.FilePath.ToLower().Contains("googleupdate.exe"))
+                    {
+
+                }
                 string sha256 = wincatalogdotnet.WinCatalog.CalculateFileHash(are.FilePath, "SHA256");
                 if (hashes.ContainsKey(sha256) == true)
                 {
@@ -108,7 +113,16 @@ namespace autorunner
                     }
                     else
                     {
-                        are.Verified = "False";
+                        string output = Misc.ShellProcessWithOutput(sigCheckPath, Global.SIGCHECK_FLAGS + "\"" + are.FilePath + "\"");
+                        are = Helper.ParseSigCheckOutput(are, output);
+                        if (are.Verified.ToLower() == "signed")
+                        {
+                            are.Verified = "True";
+                        }
+                        else
+                        {
+                            are.Verified = "False";
+                        }                        
                     }
                 }
             }

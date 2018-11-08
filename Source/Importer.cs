@@ -37,7 +37,7 @@ namespace autorunner
         private string _registryPath;
         private string _catalogPath;
         private string _windowsVolume;
-        //private string _sigCheckPath;
+        private string _sigCheckPath;
         private List<DriveMapping> _driveMappings;
         private bool _hasErrors = false;
         private Dictionary<string, bool> hashes = new Dictionary<string, bool>();
@@ -72,7 +72,7 @@ namespace autorunner
             var windowsDrive = (from d in _driveMappings where d.IsWindowsDrive == true select d).SingleOrDefault();
             _windowsVolume = System.IO.Path.GetPathRoot(windowsDrive.MappedDrive);
 
-            //_sigCheckPath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe");
+            _sigCheckPath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe");
 
             Thread thread = new Thread(new ThreadStart(Process));
             thread.IsBackground = true;
@@ -832,7 +832,7 @@ namespace autorunner
 
                         //string output = Misc.ShellProcessWithOutput(_sigCheckPath, Global.SIGCHECK_FLAGS + "\"" + autoRunEntry.FilePath + "\"");
                         //autoRunEntry = Helper.ParseSigCheckOutput(autoRunEntry, output);
-                        autoRunEntry = Helper.GetFileInformation(hashes, autoRunEntry);
+                        autoRunEntry = Helper.GetFileInformation(hashes, _sigCheckPath, autoRunEntry);
                         autoRunEntry.Md5 = Security.GenerateMd5HashStream(autoRunEntry.FilePath);
                         autoRunEntry.Sha256 = Helper.GetFileSha256Hash(autoRunEntry.FilePath);
 
