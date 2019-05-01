@@ -146,12 +146,21 @@ namespace autorunner
 
             foreach (var file in files)
             {
-                int catVer;
-                var temp = WinCatalog.GetHashesFromCatalog(file, out catVer);
-                foreach (string hash in temp)
+                try
                 {
-                    hashes[hash] = true;
+                    int catVer;
+                    var temp = WinCatalog.GetHashesFromCatalog(file, out catVer);
+                    foreach (string hash in temp)
+                    {
+                        hashes[hash] = true;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    _hasErrors = true;
+                    Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, file);
+                }
+                
             }
         }
 

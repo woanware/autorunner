@@ -70,7 +70,8 @@
     <Reference Include="Utility">
       <HintPath>..\Dependencies\woanware\Utility.dll</HintPath>
     </Reference>
-    <Reference Include="wincatalogdotnet">
+    <Reference Include="wincatalogdotnet, Version=0.0.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\woanware\wincatalogdotnet.dll</HintPath>
     </Reference>
   </ItemGroup>
