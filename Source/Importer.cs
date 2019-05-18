@@ -158,7 +158,7 @@ namespace autorunner
                 catch (Exception ex)
                 {
                     _hasErrors = true;
-                    Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, file);
+                    Helper.WriteErrorToLog(ex.ToString(), string.Empty, string.Empty, file);
                 }
                 
             }
@@ -449,7 +449,7 @@ namespace autorunner
                     catch (Exception ex) 
                     {
                         _hasErrors = true;
-                        Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, config.Path);
+                        Helper.WriteErrorToLog(ex.ToString(), string.Empty, string.Empty, config.Path);
                     }
                 }
             }
@@ -477,7 +477,7 @@ namespace autorunner
             catch (Exception ex)
             {
                 _hasErrors = true;
-                Helper.WriteErrorToLog(ex.Message, string.Empty, string.Empty, config.Path);
+                Helper.WriteErrorToLog(ex.ToString(), string.Empty, string.Empty, config.Path);
             }
         }
 
@@ -802,7 +802,7 @@ namespace autorunner
                     catch (Exception ex)
                     {
                         _hasErrors = true;
-                        Helper.WriteErrorToLog(ex.Message, filePath, autoRunEntry.FilePath, path);
+                        Helper.WriteErrorToLog(ex.ToString(), filePath, autoRunEntry.FilePath, path);
                     }
                 }
 
@@ -850,7 +850,7 @@ namespace autorunner
                 }
                 catch (Exception ex)
                 {
-                    Helper.WriteErrorToLog(ex.Message, filePath, autoRunEntry.FilePath, path);
+                    Helper.WriteErrorToLog(ex.ToString(), filePath, autoRunEntry.FilePath, path);
                     autoRunEntry.Error = "Error: " + ex.Message;
                     OnEntryFound(autoRunEntry);
                 }
@@ -858,7 +858,7 @@ namespace autorunner
             catch (Exception ex)
             {
                 _hasErrors = true;
-                Helper.WriteErrorToLog(ex.Message, filePath, filePath, path);
+                Helper.WriteErrorToLog(ex.ToString(), filePath, filePath, path);
             }
         }
 
