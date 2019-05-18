@@ -170,7 +170,7 @@ namespace autorunner
                 return null;
             }
 
-            string parameters = string.Empty;
+            //string parameters = string.Empty;
             if (path.StartsWith("\"") == true)
             {
                 // We appear to be quoted, so the file path should be between the quotes

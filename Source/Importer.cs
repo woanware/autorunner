@@ -74,8 +74,10 @@ namespace autorunner
 
             _sigCheckPath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "Tools", "sigcheck.exe");
 
-            Thread thread = new Thread(new ThreadStart(Process));
-            thread.IsBackground = true;
+            Thread thread = new Thread(new ThreadStart(Process))
+            {
+                IsBackground = true
+            };
             thread.Start();
         }
 
@@ -148,8 +150,7 @@ namespace autorunner
             {
                 try
                 {
-                    int catVer;
-                    var temp = WinCatalog.GetHashesFromCatalog(file, out catVer);
+                    var temp = WinCatalog.GetHashesFromCatalog(file, out int catVer);
                     foreach (string hash in temp)
                     {
                         hashes[hash] = true;
@@ -175,12 +176,14 @@ namespace autorunner
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="config"></param>
-        /// <param name="services"></param>
+#pragma warning disable IDE0060 // Remove unused parameter
+                               /// <summary>
+                               /// 
+                               /// </summary>
+                               /// <param name="config"></param>
+                               /// <param name="services"></param>
         private void EnumerateServicesAndDrivers(Config config, bool services)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             foreach (string file in System.IO.Directory.EnumerateFiles(_registryPath, 
                                                                        config.Hive.GetEnumDescription(), 
@@ -581,85 +584,85 @@ namespace autorunner
             }
         }
 
+        ///// <summary>
+        ///// NOT USED
+        ///// </summary>
+        ///// <param name="keys"></param>
+        ///// <param name="pathPrefix"></param>
+        ///// <param name="files"></param>
+        ///// <param name="type"></param>
+        //private void EnumerateShellEx(List<string> keys,
+        //                              string pathPrefix,
+        //                              string files,
+        //                              string type)
+        //{
+        //    foreach (string file in System.IO.Directory.EnumerateFiles(_registryPath, 
+        //                                                               files, 
+        //                                                               SearchOption.AllDirectories))
+        //    {
+        //        RegistryHiveOnDemand registry = OpenRegistry(file);
+        //        if (registry == null)
+        //        {
+        //            continue;
+        //        }
+
+        //        foreach (string key in keys)
+        //        {
+        //            RegistryKey regKey = OpenKey(registry, key);
+        //            if (regKey == null)
+        //            {
+        //                continue;
+        //            }
+
+        //            foreach (RegistryKey subKey in regKey.SubKeys)
+        //            {
+        //                if (subKey.Values.Where(v => v.ValueName.ToLower() == "default").SingleOrDefault() == null)
+        //                {
+        //                    continue;
+        //                }
+
+        //                string guid = subKey.Values.Where(v => v.ValueName.ToLower() == "default").SingleOrDefault().ValueData;
+        //                ProcessClsid(registry, 
+        //                             pathPrefix + "\\" + key,
+        //                             subKey.KeyName, 
+        //                             "ShellEx",
+        //                             guid, 
+        //                             file);
+        //            }
+        //        }
+        //    }
+        //}
+
         /// <summary>
         /// NOT USED
         /// </summary>
-        /// <param name="keys"></param>
-        /// <param name="pathPrefix"></param>
-        /// <param name="files"></param>
-        /// <param name="type"></param>
-        private void EnumerateShellEx(List<string> keys,
-                                      string pathPrefix,
-                                      string files,
-                                      string type)
-        {
-            foreach (string file in System.IO.Directory.EnumerateFiles(_registryPath, 
-                                                                       files, 
-                                                                       SearchOption.AllDirectories))
-            {
-                RegistryHiveOnDemand registry = OpenRegistry(file);
-                if (registry == null)
-                {
-                    continue;
-                }
+        //private void EnumerateShellExHooks()
+        //{
+        //    foreach (string file in System.IO.Directory.EnumerateFiles(_registryPath, 
+        //                                                               "software", 
+        //                                                               SearchOption.AllDirectories))
+        //    {
+        //        RegistryHiveOnDemand registry = OpenRegistry(file);
+        //        if (registry == null)
+        //        {
+        //            continue;
+        //        }
 
-                foreach (string key in keys)
-                {
-                    RegistryKey regKey = OpenKey(registry, key);
-                    if (regKey == null)
-                    {
-                        continue;
-                    }
+        //        //foreach (string key in _keysGuidValue)
+        //        //{
+        //        //    RegistryKey regKey = registry.Open(key);
+        //        //    if (regKey == null)
+        //        //    {
+        //        //        continue;
+        //        //    }
 
-                    foreach (RegistryKey subKey in regKey.SubKeys)
-                    {
-                        if (subKey.Values.Where(v => v.ValueName.ToLower() == "default").SingleOrDefault() == null)
-                        {
-                            continue;
-                        }
-
-                        string guid = subKey.Values.Where(v => v.ValueName.ToLower() == "default").SingleOrDefault().ValueData;
-                        ProcessClsid(registry, 
-                                     pathPrefix + "\\" + key,
-                                     subKey.KeyName, 
-                                     "ShellEx",
-                                     guid, 
-                                     file);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// NOT USED
-        /// </summary>
-        private void EnumerateShellExHooks()
-        {
-            foreach (string file in System.IO.Directory.EnumerateFiles(_registryPath, 
-                                                                       "software", 
-                                                                       SearchOption.AllDirectories))
-            {
-                RegistryHiveOnDemand registry = OpenRegistry(file);
-                if (registry == null)
-                {
-                    continue;
-                }
-
-                //foreach (string key in _keysGuidValue)
-                //{
-                //    RegistryKey regKey = registry.Open(key);
-                //    if (regKey == null)
-                //    {
-                //        continue;
-                //    }
-
-                //    foreach (RegistryValue regValue in regKey.Values())
-                //    {
-                //        ProcessClsid(registry, "HKLM\\Software\\" + key, key, "ShellExecuteHooks", regValue.Value.ToString());
-                //    }
-                //}
-            }
-        }
+        //        //    foreach (RegistryValue regValue in regKey.Values())
+        //        //    {
+        //        //        ProcessClsid(registry, "HKLM\\Software\\" + key, key, "ShellExecuteHooks", regValue.Value.ToString());
+        //        //    }
+        //        //}
+        //    }
+        //}
 
         /// <summary>
         /// Lookup the Classes\CLSID key, then the  "InprocServer32" key of the GUID\InprocServer32, then the "(default)" value, normalise path, then check
@@ -764,13 +767,15 @@ namespace autorunner
             try
             {
                 filePath = Text.ReplaceNulls(filePath);
-                AutoRunEntry autoRunEntry = new AutoRunEntry();
-                autoRunEntry.Type = type;
-                autoRunEntry.Info = info;
-                autoRunEntry.Path = path;
-                autoRunEntry.ServiceDisplayName = serviceDisplayName;
-                autoRunEntry.ServiceDescription = serviceDescription;
-                autoRunEntry.SourceFile = sourceFile;
+                AutoRunEntry autoRunEntry = new AutoRunEntry
+                {
+                    Type = type,
+                    Info = info,
+                    Path = path,
+                    ServiceDisplayName = serviceDisplayName,
+                    ServiceDescription = serviceDescription,
+                    SourceFile = sourceFile
+                };
                 autoRunEntry = Helper.GetFilePathWithNoParameters(_driveMappings, autoRunEntry, filePath);
                 if (autoRunEntry == null)
                 {
@@ -790,9 +795,11 @@ namespace autorunner
                     {
                         ShellLinkFile shellLinkFile = ShellLinkFile.Load(autoRunEntry.FilePath);
 
-                        autoRunEntry = new AutoRunEntry();
-                        autoRunEntry.Type = type;
-                        autoRunEntry.Info = info;
+                        autoRunEntry = new AutoRunEntry
+                        {
+                            Type = type,
+                            Info = info
+                        };
                         autoRunEntry.Info = filePath;
                         autoRunEntry = Helper.GetFilePathWithNoParameters(_driveMappings, autoRunEntry, System.IO.Path.Combine(shellLinkFile.LinkInfo.LocalBasePath, shellLinkFile.LinkInfo.CommonPathSuffix) + " " + shellLinkFile.Arguments);
                         autoRunEntry.Path = System.IO.Path.Combine(shellLinkFile.LinkInfo.LocalBasePath, shellLinkFile.LinkInfo.CommonPathSuffix) + " " + shellLinkFile.Arguments;
@@ -874,7 +881,7 @@ namespace autorunner
             {
                 return new Registry.RegistryHiveOnDemand(file);
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 return null; 
             }
@@ -893,7 +900,7 @@ namespace autorunner
             {
                 return registry.GetKey(key);
             }
-            catch (Exception ex) 
+            catch (Exception) 
             { 
                 return null;
             }
@@ -906,11 +913,7 @@ namespace autorunner
         /// </summary>
         private void OnComplete()
         {
-            var handler = Complete;
-            if (handler != null)
-            {
-                handler(_entries);
-            }
+            Complete?.Invoke(_entries);
         }
 
         /// <summary>
@@ -919,24 +922,18 @@ namespace autorunner
         /// <param name="message"></param>
         private void OnEntryFound(AutoRunEntry autoRunEntry)
         {
-            var handler = EntryFound;
-            if (handler != null)
-            {
-                handler(autoRunEntry);
-            }
+            EntryFound?.Invoke(autoRunEntry);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="message"></param>
+#pragma warning disable IDE0051 // Remove unused private members
+                               /// <summary>
+                               /// 
+                               /// </summary>
+                               /// <param name="message"></param>
         private void OnMessage(string message)
+#pragma warning restore IDE0051 // Remove unused private members
         {
-            var handler = Message;
-            if (handler != null)
-            {
-                handler(message);
-            }
+            Message?.Invoke(message);
         }
 
         /// <summary>
@@ -945,11 +942,7 @@ namespace autorunner
         /// <param name="message"></param>
         private void OnError(string message)
         {
-            var handler = Error;
-            if (handler != null)
-            {
-                handler(message);
-            }
+            Error?.Invoke(message);
         }
         #endregion
     }

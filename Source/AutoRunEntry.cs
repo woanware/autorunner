@@ -66,7 +66,7 @@ namespace autorunner
             FileSystemCreated = DateTime.MinValue;
             FileSystemModified = DateTime.MinValue;
             FileSystemAccessed = DateTime.MinValue;
-            RegistryModified = DateTime.MinValue;
+            RegistryModified = new DateTimeOffset();
 
             Guid = System.Guid.NewGuid().ToString(); // Generate a custom guid/key for the image list icon stuff
         }
